@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+
+    <title>Easy Kanban</title>
+    <meta name="description" content="Lite WebApp Template">
+
+    <meta name="author" content="@cicciosgamino"> 
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="theme-color" content="currentColor">
+    <meta name="color-scheme" content="light dark">
+
+    <!-- TODO Fallback ico and svg favicon 
+    <link rel="icon" href="/favicon.ico" sizes="any"> -->
+    <link rel="icon" href="/images/chart.svg" type="image/svg+xml">
+
+    <style>
+
+      :root {
+        --text1: hsl(200, 65%, 15%);
+        --surface1: whitesmoke;
+
+        --main-color: salmon;
+      }
+
+      /* reset browser defaults */
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      /* *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+      } */
+
+      html {
+        block-size: 100vh;
+        block-size: 100dvh;
+      }
+      
+
+      body  {
+        min-block-size: 100vh;
+        min-block-size: 100dvh;
+
+        font-family: system-ui, sans-serif;
+        position: relative;
+      }
+
+      my-app[unresolved] {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-image: url('/images/chart.svg');
+        background-color: salmon;
+        background-repeat: no-repeat;
+        background-position: center;
+        background-size: 30% auto;
+      }
+
+      /* styling for rendering while resources are loading - text */
+      my-app[unresolved]::after {
+        /* version */
+        content: "Easy Kanban v1.0.0";
+        position: fixed;
+        left: 0;
+        right: 0;
+        bottom: 10%;
+        text-align: center;
+      }
+      
+      @media only screen and (min-width: 767px) {
+
+      }
+      
+    </style>
+    
+  </head>
+
+  <body>
+
+    <my-app unresolved></my-app>
+
+    <noscript>
+      Please enable JavaScript to view this website.
+    </noscript>
+
+    <!-- Import Js Module -->
+    <script type="module" src="src/my-app.mjs"></script>
+
+    <script>
+
+      window.addEventListener('DOMContentLoaded', (e) => {
+        console.log('@EASY-KANBAN - DOMContentLoaded')
+
+        document.querySelector('my-app').removeAttribute('unresolved')
+
+      })
+
+    </script>
+
+  </body>
+</html>
