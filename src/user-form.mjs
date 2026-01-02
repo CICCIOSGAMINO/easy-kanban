@@ -1,11 +1,22 @@
 import { LitElement, html, css } from 'lit'
+import { sharedStyles } from './shared-styles.mjs'
+
+import { updateTaskDetailsOnServer } from './server-api.mjs'
+
+const requestUpdateEvent = new CustomEvent(
+    'request-update', {
+        bubbles: true,
+        composed: true,
+})                   
 
 /**
  * Form is used for user details display and message sending
  */
 export class UserForm extends LitElement {
 
-    static styles = css`
+    static styles = [
+        sharedStyles,
+        css`
         :host {
             display: block;
         }
@@ -45,14 +56,19 @@ export class UserForm extends LitElement {
             margin: 0.2rem 0 0 0;
         }
 
-        button {
-            padding: 1rem 2rem;
+        .mini-button {
+            margin: .1rem;
+            padding: .3rem .4rem;
             font-size: 1rem;
-            background-color: white;
-            color: var(--main-color);
-            border: 2px solid var(--main-color);
-            border-radius: 2.1rem;
+            border: 1px solid #ccc;
+            border-radius: 0.3rem;
+            background-color: #f0f0f0;
             cursor: pointer;
+        }
+
+        .mini-minus {
+            margin-left: 1rem;
+            padding: .3rem .5rem;
         }
 
         @media (max-width: 600px) {
@@ -62,7 +78,7 @@ export class UserForm extends LitElement {
                 height: auto;
             }
         }
-    `
+    `]
 
     static properties = {
         user: {
@@ -78,9 +94,32 @@ export class UserForm extends LitElement {
         this.user = null
     }
 
+    msgCountPlus (e) {
+        e.preventDefault()
+        this.user.msgCount += 1
+
+        this.requestUpdate()
+    }
+
+    msgCountMinus (e) {
+        e.preventDefault()
+        if (this.user.msgCount > 0) {
+            this.user.msgCount -= 1
+
+            this.requestUpdate()
+        }
+    }
+
     sendMessage (e) {
         e.preventDefault()
         // console.log('Sending message to ', this.user.email)
+
+        updateTaskDetailsOnServer(
+            this.user.id,
+            { lastContact: new Date().toLocaleDateString('en-GB'),
+              msgCount: this.user.msgCount + 1
+            }
+        )
 
         // whatsapp link
         const phone = this.user.phone.replace(/\D/g, '') // remove non-digit characters
@@ -88,6 +127,20 @@ export class UserForm extends LitElement {
         const wsUrl = `https://wa.me/${phone}?text=${text}`
 
         window.open(wsUrl, '_blank').focus()
+    }
+
+    saveDetails (e) {
+        // e.preventDefault()
+
+        updateTaskDetailsOnServer(
+            this.user.id,
+            {
+                msgCount: this.user.msgCount
+            }
+        )
+
+        this.dispatchEvent(requestUpdateEvent)
+
     }
 
     render () {
@@ -119,7 +172,14 @@ export class UserForm extends LitElement {
                     <div>
                         <div class="field">
                             <p class="label">Msg Count</p>
-                            <p class="value">${this.user?.msgCount}</p>
+                            <p class="value">${this.user?.msgCount}
+                                <button
+                                    class="mini-button mini-minus"
+                                    @click=${this.msgCountMinus}>- </button>
+                                <button
+                                    class="mini-button mini-plus"
+                                    @click=${this.msgCountPlus}>+</button>
+                            </p>
                         </div>
                         <div class="field">
                             <p class="label">Message</p>
@@ -133,8 +193,10 @@ export class UserForm extends LitElement {
 
                 <div>
                     <button value="close">Close</button>
-                    <button value="confirm" style="background-color: var(--main-color); color: white;">
-                        Cancel
+                    <button
+                        class="save-btn"
+                        @click=${this.saveDetails}>
+                        Save
                     </button>
                 </div>
                 

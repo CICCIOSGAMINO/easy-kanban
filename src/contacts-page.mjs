@@ -2,41 +2,45 @@ import { LitElement, html, css } from 'lit'
 import { repeat } from 'lit/directives/repeat.js'
 import { unsafeSVG } from 'lit/directives/unsafe-svg.js'
 
-import { addIcon, deleteIcon, saveIcon } from './mySVG.mjs'
+import { addIcon, deleteIcon } from './mySVG.mjs'
 import { allAvatars, avatarSVGs } from './avatars.mjs'
+import { sharedStyles } from './shared-styles.mjs'
 
 import {
+    addContactOnServer,
+    modifyContactOnServer,
     addContactToKanbanOnServer,
     deleteContactsOnServer
 } from './server-api.mjs'
 
 import './contact-form.mjs'
 
+const snackBarEvent = new CustomEvent('snackbar-message', {
+    detail: {
+        message: '',
+        bkColor: 'crimson',
+        txtColor: 'whitesmoke',
+    },
+    bubbles: true,
+    composed: true
+})
+
 export class ContactsPage extends LitElement {
 
-    static styles = css`
+    static styles = [
+        sharedStyles,
+        css`
         :host {
             display: block;
             padding: 16px;
-
-            --border-color: #e5e7eb;
-            --primary-color: #3b82f6;
-            --text-color: #374151;
         }
 
-        button {
-            margin: .5rem;
-            padding: .8rem 1.7rem;
-            font-size: 1rem;
-            background-color: white;
-            border: 2px solid var(--primary-color);
-            border-radius: 2.1rem;
-            cursor: pointer;
-        }
-
-        h1 a {
-            text-decoration: none;
-            color: var(--primary-color);
+        .head-buttons {
+            position: absolute;
+            top: 1.7rem;
+            right: calc(50% - 4rem);
+            display: flex;
+            gap: .5rem;
         }
 
         .container {
@@ -51,12 +55,14 @@ export class ContactsPage extends LitElement {
 
         .field-row {
             display: grid;
-            grid-template-columns: repeat(3, minmax(100px, 1fr));
+            /* grid-template-columns: repeat(4, minmax(100px, 1fr)); */
+            grid-template-columns: auto;
+            grid-template-rows: auto auto auto;
             padding: .5rem;
             border-bottom: 1px solid var(--border-color);
             align-items: center;
 
-            cursor: pointer;
+            position: relative;
         }
 
         .field-row:hover {
@@ -72,6 +78,8 @@ export class ContactsPage extends LitElement {
             flex-direction: row;
             align-items: center;
             gap: 1rem;
+
+            cursor: pointer;
         }
 
         .avatar svg {
@@ -104,32 +112,35 @@ export class ContactsPage extends LitElement {
             color: gray;
         }
 
-        .add-icon, .delete-icon {
-            background: none;
-            border: none;
-            cursor: pointer;
-            padding: .3rem;
+        .contact-buttons {
+            position: absolute;
+            right: 1rem;
+            top: 1rem;
+            display: flex;
+            gap: .5rem;
         }
 
-        .add-icon:hover svg {
-            fill: salmon;
+        .user-general {
+            margin-top: 1rem;
         }
-
-        .delete-icon:hover svg {
-            fill: red;
-        }
-
-        .add-icon svg, .delete-icon svg {
-            width: 27px;
-            height: 27px;
-            fill: var(--primary-color);
-        }
-
 
         @media (min-width: 600px) {
+
+            .field-row {
+                grid-template-columns: 2fr 2fr 1fr auto;
+                grid-template-rows: auto;
+            }
+
+            .user-general {
+                margin-top: 0;
+            }
+
+            .contact-buttons {
+                position: static;
+            }
             
         }
-    `
+    `]
 
     static properties = {
         contacts: {
@@ -144,10 +155,40 @@ export class ContactsPage extends LitElement {
         this.jsonFileURL = 'http://localhost:3000/api/clients'
     }
 
+    connectedCallback () {
+        super.connectedCallback()
+
+        this.addEventListener('new-contact', async (e) => {
+            const newUser = e.detail.user
+
+            // close the dialog
+            const dialog = this.renderRoot.querySelector('dialog')
+            dialog.close()
+
+            await addContactOnServer(newUser)
+            await this.loadContacts()
+        })
+
+        this.addEventListener('modify-contact', async (e) => {
+            const contactDetails = e.detail.user
+
+            // close the dialog
+            const dialog = this.renderRoot.querySelector('dialog')
+            dialog.close()
+
+            await modifyContactOnServer(contactDetails)
+            await this.loadContacts()
+        })
+
+        this.addEventListener('cancel-contact', () => {
+            // close the dialog
+            const dialog = this.renderRoot.querySelector('dialog')
+            dialog.close()
+        })
+    }   
+
     firstUpdated () {
         this.loadContacts()
-
-        console.log(allAvatars[3% allAvatars.length])
     }
 
     async loadContacts () {
@@ -177,26 +218,43 @@ export class ContactsPage extends LitElement {
             name: '',
             email: '',
             phone: '',
-            since: '',
-            lastContact: '',
             product: '',
-            msgCount: 0,
-            avatar: allAvatars[Math.floor(Math.random() * allAvatars.length)],
+            avatar: 'bip',
         }
         dialog.showModal()
     }
 
-    deleteContact (id) {
+    openContactDialog (e) {
+
+        const contactId =
+            e.currentTarget.dataset.index
+        
+        const dialog = this.renderRoot.querySelector('dialog')
+        const contactForm = dialog.querySelector('contact-form')
+        contactForm.user = { ...this.contacts[contactId] }
+        dialog.showModal()
+    }
+
+    async  deleteContact (id) {
         if (confirm(`Are you sure you want to delete contact with id: ${id}?`)) {
             this.contacts = this.contacts.filter(contact => contact.id !== id)
 
-            deleteContactsOnServer(this.contacts)
+            await deleteContactsOnServer(id)
+
+            this.requestUpdate()
         }
         
     }
 
-    addContact (id) {
-        addContactToKanbanOnServer(id)
+    async addContact (id) {
+        await addContactToKanbanOnServer(id)
+        this.requestUpdate()
+
+        snackBarEvent.detail.bkColor = '#2af255'
+        snackBarEvent.detail.txtColor = 'whitesmoke'
+
+        snackBarEvent.detail.message = `Contact with id: ${id} added to Kanban`
+        this.dispatchEvent(snackBarEvent)
     }
 
     render () {
@@ -204,13 +262,15 @@ export class ContactsPage extends LitElement {
 
             <h1><a href="/">H</a> / Clients</h1>
 
-            <!-- <button @click=${this.loadContacts}>Load</button> -->
-            <button @click=${() => this.sort(1)}>Sort</button>
-            <button
-                class="add-icon"
-                @click=${this.openAddContactDialog}>
-                ${addIcon}
-            </button>
+            <div class="head-buttons">
+                <button @click=${() => this.sort(1)}>Sort</button>
+                <button
+                    class="add-icon"
+                    @click=${this.openAddContactDialog}>
+                    ${addIcon}
+                </button>
+            </div>
+            
             <!-- <button @click=${() => this.sort(-1)}>Sort descending</button> -->
             
             <div class="container">
@@ -219,8 +279,13 @@ export class ContactsPage extends LitElement {
                     this.contacts,
                     (contact) => contact.id,
                     (contact, index) => html`
-                        <div draggable="true" class="field-row">
-                            <div class="user-info">
+                        <div
+                            draggable="true"
+                            class="field-row">
+                            <div
+                                class="user-info user-general"
+                                data-index=${index}
+                                @click=${this.openContactDialog}>
                                 <div class="avatar">
                                     ${ unsafeSVG(avatarSVGs[contact.avatar])}
                                 </div>
@@ -229,12 +294,17 @@ export class ContactsPage extends LitElement {
                                     <p>${contact.id}</p>
                                 </div>
                             </div>
-                            <div class="contact-details">
+                            <div class="contact-details user-general">
                                 <div>${contact.phone}</div>
                                 <div>${contact.email}</div>
                             </div>
+
+                            <div class="contact-details user-general">
+                                <div>Product:</div>
+                                <div>${contact.product}</div>
+                            </div>
                             
-                            <div>
+                            <div class="contact-buttons">
                                 <button
                                     class="add-icon"
                                     @click=${() => this.addContact(contact.id)}>

@@ -1,6 +1,6 @@
 {
   "name": "easy-kanban",
-  "version": "1.0.0",
+  "version": "0.9.0",
   "description": "Easy Kanban Board using Lit and Vite",
   "license": "ISC",
   "author": "@cicciosgamino",
@@ -13,6 +13,7 @@
     "start": "node server/server.mjs"
   },
   "dependencies": {
+    "@cicciosgamino/snack-bar": "^1.4.0",
     "@lit-labs/router": "^0.1.4",
     "lit": "^3.3.2"
   },

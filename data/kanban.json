@@ -1,88 +1,94 @@
 [
-    {
-        "taskId": 0,
-        "taskName": "Nuovo Utente",
-        "tasks": [
-            {
-                "id": 0,
-                "name": "John Doeeee",
-                "email": "john.doe@example.com",
-                "phone": "+1234567890",
-                "msgCount": 0,
-                "since": "15-01-2023",
-                "lastContact": "25-12-2025",
-                "product": "Oakley Kato OO9456"
-            }, 
-            {
-                "id": 1,
-                "name": "Jane Smith",
-                "email": "jane.smith@example.com",
-                "phone": "+0987654321",
-                "msgCount": 0,
-                "since": "20-02-2023",
-                "lastContact": "18-05-2025",
-                "product": "Ray-Ban RB2132"
-            }
-        ],
-        "message": "Follow up scheduled for next week."
-    },
-    {
-        "taskId": 1,
-        "taskName": "Primo Contatto",
-        "tasks": [
-            {
-                "id": 2,
-                "name": "Jane Smith",
-                "email": "jane.smith@example.com",
-                "phone": "+0987654321",
-                "msgCount": 0,
-                "since": "20-02-2023",
-                "lastContact": "18-05-2025",
-                "product": "Ray-Ban RB2132"
-            }
-        ],
-        "message": "Follow up scheduled for next week."
-    },
-    {
-        "taskId": 2,
-        "taskName": "1 Anno",
-        "tasks": [
-
-        ],
-        "message": "Follow up scheduled for next week."
-    },
-    {
-        "taskId": 3,
-        "taskName": "2 Anno",
-        "tasks": [
-            {
-                "id": 4,
-                "name": "Alice Johnson",
-                "email": "alice.johnson@example.com",
-                "phone": "+1122334455",
-                "msgCount": 2,
-                "since": "20-02-2023",
-                "lastContact": "18-05-2025",
-                "product": "Oakley Holbrook OO9102"
-            }
-        ],
-        "message": "Follow up scheduled for next week."
-    },
-    {
-        "taskId": 4,
-        "taskName": "3 Anno",
-        "tasks": [
-            {
-                "id": 7,
-                "name": "Alice Johnson",
-                "email": "alice.johnson@example.com",
-                "phone": "+1122334455",
-                "msgCount": 2,
-                "since": "20-02-2023",
-                "lastContact": "18-05-2025",
-                "product": "Oakley Holbrook OO9102"
-            }
-        ],
-        "message": "Follow up scheduled for next week."
-    }
+  {
+    "taskId": 0,
+    "taskName": "Nuovo Utente",
+    "tasks": [
+      {
+        "id": 0,
+        "name": "John Doeeee",
+        "email": "john.doe@example.com",
+        "phone": "+1234567890",
+        "msgCount": 0,
+        "since": "15-01-2023",
+        "lastContact": "25-12-2025",
+        "product": "Oakley Kato OO9456"
+      },
+      {
+        "id": 4,
+        "name": "Roberta Masserini",
+        "product": "Person Steve McQueen ",
+        "email": "roby.masse@hotmail.it",
+        "phone": "+3976565656",
+        "msgCount": 0,
+        "since": "02/01/2026",
+        "lastContact": "02/01/2026"
+      },
+      {
+        "id": 4,
+        "name": "Roberta Masserini",
+        "product": "Person Steve McQueen ",
+        "email": "roby.masse@hotmail.it",
+        "phone": "+3976565656",
+        "msgCount": 0,
+        "since": "02/01/2026",
+        "lastContact": "02/01/2026"
+      },
+      {
+        "id": 5,
+        "name": "Marco Canali",
+        "product": "Oakley Meta Vanguard",
+        "email": "marco.canali@gmail.com",
+        "phone": "+393207632270",
+        "msgCount": 0,
+        "since": "03/01/2026",
+        "lastContact": "03/01/2026"
+      },
+      {
+        "id": 5,
+        "name": "Marco Canali",
+        "product": "Oakley Meta Vanguard",
+        "email": "marco.canali@gmail.com",
+        "phone": "+393207632270",
+        "msgCount": 0,
+        "since": "03/01/2026",
+        "lastContact": "03/01/2026"
+      }
+    ],
+    "message": "Follow up scheduled for next week."
+  },
+  {
+    "taskId": 1,
+    "taskName": "Primo Contatto",
+    "tasks": [],
+    "message": "Follow up scheduled for next week."
+  },
+  {
+    "taskId": 2,
+    "taskName": "1 Anno",
+    "tasks": [
+      {
+        "id": 3,
+        "name": "Giulia gelmi",
+        "product": "Rayban SS",
+        "email": "giulia@gmail.com",
+        "phone": "23455666",
+        "msgCount": 0,
+        "since": "02/01/2026",
+        "lastContact": "02/01/2026"
+      }
+    ],
+    "message": "Follow up scheduled for next week."
+  },
+  {
+    "taskId": 3,
+    "taskName": "2 Anno",
+    "tasks": [],
+    "message": "Follow up scheduled for next week."
+  },
+  {
+    "taskId": 4,
+    "taskName": "3 Anno",
+    "tasks": [],
+    "message": "Follow up scheduled for next week."
+  }
 ]

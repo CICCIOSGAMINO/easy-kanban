@@ -5,11 +5,17 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+
+## [0.9.0] - 03-01-2026
+
+### Added
+	- Server / Clients features
 	
-## [0.0.1] - 31-12-2025
+## [0.3.0] - 02-01-2026
 
 ### Added
 	- Init
 
 ### Changed
 	- Changelog format
+	- Contacts, Kanban, Server major refactorings

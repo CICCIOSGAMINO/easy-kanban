@@ -1,6 +1,8 @@
 import { LitElement, html, css } from 'lit'
 import { Routes, Router } from '@lit-labs/router'
 
+import '@cicciosgamino/snack-bar'
+
 import './home-page.mjs'
 import './contacts-page.mjs'
 import './kanban-page.mjs'
@@ -11,6 +13,10 @@ class MyApp extends LitElement {
         :host {
             display: block;
             position: relative;
+        }
+
+        snack-bar {
+            --snack-font-size: 1.5rem;
         }
 
         #content {
@@ -31,6 +37,20 @@ class MyApp extends LitElement {
         ])
     }
 
+    connectedCallback () {
+        super.connectedCallback()
+
+        this.addEventListener('snackbar-message', (e) => {
+            const snackBar = this.renderRoot.querySelector('snack-bar')
+            snackBar.show(
+                e.detail.message,
+                2700,
+                e.detail.bkColor,
+                e.detail.txtColor
+            )
+        })
+    }
+
     render () {
         return html`
 
@@ -38,6 +58,7 @@ class MyApp extends LitElement {
             <div id="content">
                 ${this.router.outlet()  }
             </div>
+            <snack-bar timing="2700"></snack-bar>
         `
     }
 

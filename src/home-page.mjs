@@ -44,11 +44,11 @@ export class HomePage extends LitElement {
         }
 
         #b-side {
-            margin-top: 5rem;
+            margin-top: 3rem;
             display: flex;
-            flex-direction: row;
+            flex-direction: column;
             justify-content: start;
-            gap: 3rem;
+            gap: 1rem;
         }
 
         .box-icon {
@@ -103,7 +103,7 @@ export class HomePage extends LitElement {
             }
         }
 
-        @media (min-width: 768px) {
+        @media (min-width: 600px) {
             main {
                 grid-template-columns: 1fr 1fr;
             }
@@ -113,6 +113,13 @@ export class HomePage extends LitElement {
                 background-color: salmon;
                 width: 100%;
             }
+
+             #b-side {
+                margin-top: 5rem;
+                flex-direction: row;
+                gap: 3rem;
+            }
+
         }
 
     `
@@ -121,6 +128,80 @@ export class HomePage extends LitElement {
         const page = event.currentTarget.dataset.page
         window.history.pushState({}, '', `/${page}`)
         window.dispatchEvent(new PopStateEvent('popstate'))
+    }
+
+    downloadJSONasFile (data, filename) {
+        const dataStr = JSON.stringify(data, null, 2)
+        const blob = new Blob([dataStr], { type: 'application/json' })
+        const url = URL.createObjectURL(blob)
+        const a = document.createElement('a')
+
+        a.href = url
+        a.download = filename
+        document.body.appendChild(a)
+        a.click()
+        
+        document.body.removeChild(a)
+        URL.revokeObjectURL(url)
+    }
+
+    async backupData () {
+
+        try {
+            const response = await fetch('http://localhost:3000/api/files-backup', {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+
+            if (!response.ok) {
+                throw new Error('Network response was not ok')
+            }
+
+            const { clients, kanban } = await response.json()
+
+            if (clients) {
+                this.downloadJSONasFile(
+                    clients,
+                    `clients_${new Date().toLocaleDateString('en-GB')}.json`
+                )
+            }
+
+            setTimeout(() => {
+                if (kanban) {
+                    this.downloadJSONasFile(
+                        kanban,
+                        `kanban_${new Date().toLocaleDateString('en-GB')}.json`
+                    )
+                }
+            }, 250)
+
+            // @DEBUG
+            // console.log('@BACKUP DATA >>', { clients, kanban })
+        
+        } catch (error) {
+
+            // TODO fire an Event to show error in SnackBar
+            console.error('Failed to backup data:', error)
+        }
+
+
+
+
+        // ----------------------------------------------------------
+
+        const snackBarEvent = new CustomEvent('snackbar-message', {
+            detail: {
+                message: 'Backup started',
+                bkColor: '#2af255',
+                txtColor: 'whitesmoke'
+            },
+            bubbles: true,
+            composed: true
+        })
+
+        this.dispatchEvent(snackBarEvent)
     }
 
     render () {
@@ -152,7 +233,9 @@ export class HomePage extends LitElement {
                     
                 </div>
 
-                <button id="bk-btn">
+                <button
+                    id="bk-btn"
+                    @click=${this.backupData}>
                     ${myDownload}
                 </button>
                 

@@ -1,28 +1,23 @@
 import { LitElement, html, css } from 'lit'
 import { repeat } from 'lit/directives/repeat.js'
+import { sharedStyles } from './shared-styles.mjs'
+import { deleteIcon } from './mySVG.mjs'
+
+import {
+    deleteContactFromKanbanOnServer,
+    updateTaskPositionOnServer
+} from './server-api.mjs'
 
 import './user-form.mjs'
 
 export class KanbanPage extends LitElement {
 
-    static styles = css`
+    static styles = [
+        sharedStyles,
+        css`
         :host {
             display: block;
             padding: 16px;
-
-            --border-color: #e5e7eb;
-            --primary-color: #3b82f6;
-            --text-color: #374151;
-        }
-
-        h1 a {
-            text-decoration: none;
-            color: var(--primary-color);
-        }
-
-        .container {
-            display: flex;
-            gap: 0.5rem;
         }
 
         .task-column {
@@ -85,41 +80,36 @@ export class KanbanPage extends LitElement {
             font-size: 1rem;
         }
 
-        /* dialog h2 {
-            text-align: center;
-        } */
-
-        dialog {
-            display: none;
-        }
-
-        dialog[open] {
-            padding: 3rem;
-            width: 750px;
-            max-width: 90%;
+        .container {
             display: flex;
-            border: 2px solid var(--main-color);
-            border-radius: 3rem;
+            gap: 0.5rem;
+            flex-direction: column;
+        }
+
+        .delete-zone {
+            position: fixed;
+            bottom: 1rem;
+            right: 1rem;
+            width: 4rem;
+            height: 4rem;
+            border: 2px dashed var(--main-color);
+            border-radius: 50%;
+            display: grid;
+            place-items: center;
+            background-color: #fff;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-        }
 
-        /* dialog backdrop */
-        dialog::backdrop {
-            background-color: rgba(0, 0, 0, 0.3);
+            cursor: pointer;
         }
+        
 
-        @media (max-width: 600px) {
+        @media (min-width: 600px) {
             .container {
-                flex-direction: column;
-            }
-
-            dialog {
-                width: 90%;
-                height: auto;
+                flex-direction: row;
             }
         }
 
-    `
+    `]
 
     static properties = {
         items: {
@@ -134,12 +124,20 @@ export class KanbanPage extends LitElement {
         this.jsonFileURL = 'http://localhost:3000/api/kanban'
     }
 
-    firstUpdated () {
-        super.firstUpdated()
-        this.loadContacts()
+    connectedCallback () {
+        super.connectedCallback()
+
+        this.addEventListener('request-update', () => {
+            this.requestUpdate()
+        })  
     }
 
-    async loadContacts () {
+    firstUpdated () {
+        super.firstUpdated()
+        this.loadKanban()
+    }
+
+    async loadKanban () {
         try {
             const response = await fetch(this.jsonFileURL)
             if (!response.ok) {
@@ -183,22 +181,39 @@ export class KanbanPage extends LitElement {
     onDrop (event) {
         event.preventDefault()
 
-        console.log(`@DROP event on ${event.target}`)
-
         if (event.target !== event.currentTarget) {
             console.log('@DROP aborted: event target is not the currentTarget')
             return
         }
 
+        const newPosition = event.currentTarget.dataset.task
         const taskId = event.dataTransfer.getData('task')
         const clientId = event.dataTransfer.getData('client')
+
         const draggedElement =
             this.renderRoot.querySelector('#dragged-task')
 
         draggedElement.remove()
         event.target.querySelector('.tasks').appendChild(draggedElement)
 
-        console.log(`@DROP ${event.target.dataset.task}(${taskId}, ${clientId})`)
+        // console.log(`@DROP client ${clientId} / newPosition ${newPosition}`)
+        updateTaskPositionOnServer(clientId, newPosition)
+    }
+
+    onDropDelete (event) {
+        event.preventDefault()
+
+        const taskId = event.dataTransfer.getData('task')
+        const clientId = event.dataTransfer.getData('client')
+
+        deleteContactFromKanbanOnServer(clientId)
+
+        const draggedElement =
+            this.renderRoot.querySelector('#dragged-task')
+
+        draggedElement.remove()
+
+        console.log(`@DROP_CLIENT_ID (${clientId})`)
     }
 
     onClick (event) {
@@ -223,6 +238,13 @@ export class KanbanPage extends LitElement {
         return html`
 
             <h1><a href="/">H</a> / Kanban</h1>
+
+            <div
+                class="delete-zone"
+                @dragover=${this.onDragOver}
+                @drop=${this.onDropDelete}>
+                ${deleteIcon}
+            </div>
 
             <div class="container">
 
