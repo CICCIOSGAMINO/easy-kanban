@@ -6,10 +6,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-## [0.9.0] - 03-01-2026
+## [0.9.3] - 03-01-2026
 
 ### Added
 	- Server / Clients features
+	- Hardware & Node.js setup instructions for Raspberry Pi 4
+
+### Changed
+	- Updated dependencies
+	- .gitignore to exclude public folder
 	
 ## [0.3.0] - 02-01-2026
 
