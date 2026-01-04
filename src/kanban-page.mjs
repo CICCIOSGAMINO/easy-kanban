@@ -121,7 +121,7 @@ export class KanbanPage extends LitElement {
     constructor () {
         super ()
         this.items = []
-        this.jsonFileURL = 'http://localhost:3000/api/kanban'
+        this.jsonFileURL = '/api/kanban'
     }
 
     connectedCallback () {

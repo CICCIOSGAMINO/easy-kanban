@@ -148,7 +148,7 @@ export class HomePage extends LitElement {
     async backupData () {
 
         try {
-            const response = await fetch('http://localhost:3000/api/files-backup', {
+            const response = await fetch('/api/files-backup', {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json'

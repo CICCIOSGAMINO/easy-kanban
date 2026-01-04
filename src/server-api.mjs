@@ -1,6 +1,6 @@
 export const addContactOnServer = async (contact) => {
     try {
-        const response = await fetch('http://localhost:3000/api/new-client', {
+        const response = await fetch('/api/new-client', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -21,7 +21,7 @@ export const addContactOnServer = async (contact) => {
 
 export const modifyContactOnServer = async (contact) => {
     try {
-        const response = await fetch(`http://localhost:3000/api/modify-client/${contact.id}`, {
+        const response = await fetch(`/api/modify-client/${contact.id}`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
@@ -44,7 +44,7 @@ export const deleteContactsOnServer = async (clientId) => {
     try {
 
         console.log('@CLIENT_ID to delete:', clientId)
-        const response = await fetch(`http://localhost:3000/api/delete-client/${clientId}`, {
+        const response = await fetch(`/api/delete-client/${clientId}`, {
             method: 'DELETE',
             headers: {
                 'Content-Type': 'application/json',
@@ -64,7 +64,7 @@ export const deleteContactsOnServer = async (clientId) => {
 
 export const addContactToKanbanOnServer = async (contactId) => {
     try {
-        const response = await fetch('http://localhost:3000/api/new-task', {
+        const response = await fetch('/api/new-task', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -86,7 +86,7 @@ export const addContactToKanbanOnServer = async (contactId) => {
 export const deleteContactFromKanbanOnServer = async (clientId) => {
     try {
         console.log('@CLIENT_ID to delete from KANBAN:', clientId)
-        const response = await fetch(`http://localhost:3000/api/delete-task/${clientId}`, {
+        const response = await fetch(`/api/delete-task/${clientId}`, {
             method: 'DELETE',
             headers: {
                 'Content-Type': 'application/json',
@@ -107,7 +107,7 @@ export const deleteContactFromKanbanOnServer = async (clientId) => {
 export const updateTaskPositionOnServer = async (taskId, newPosition) => {
     try {
         const response = await fetch(
-            `http://localhost:3000/api/update-task-position/${taskId}/${newPosition}`, {
+            `/api/update-task-position/${taskId}/${newPosition}`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
@@ -128,7 +128,7 @@ export const updateTaskPositionOnServer = async (taskId, newPosition) => {
 export const updateTaskDetailsOnServer = async (taskId, updatedDetails) => {
     try {
         const response = await fetch(
-            `http://localhost:3000/api/update-task-details/${taskId}`, {
+            `/api/update-task-details/${taskId}`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

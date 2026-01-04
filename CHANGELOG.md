@@ -6,6 +6,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.11.0] - 04-01-2026
+
+### Added
+	- Close issue Fix the URL for fetch requests #1
+	- Dynamic URL in th fetch requests to support reverse proxy setups
+### Changed
+	- Update README.md
+
 ## [0.9.3] - 03-01-2026
 
 ### Added

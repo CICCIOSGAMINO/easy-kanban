@@ -152,7 +152,7 @@ export class ContactsPage extends LitElement {
         super()
 
         this.contacts = []
-        this.jsonFileURL = 'http://localhost:3000/api/clients'
+        this.jsonFileURL = '/api/clients'
     }
 
     connectedCallback () {
