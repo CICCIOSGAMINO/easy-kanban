@@ -35,8 +35,8 @@ export class ContactForm extends LitElement {
 
         form {
             display: grid;
-            gap: 1rem;
             align-items: start;
+            gap: 1rem;
         }
 
         .two-columns {
@@ -50,44 +50,10 @@ export class ContactForm extends LitElement {
             position: relative;
         }
 
-        label {
-            font-size: 17px;
-            position: absolute;
-            top: 9px;
-            left: 9px;
-            transition: top .2s ease-in-out, font-size .2s ease-in-out;
-        }
+        
 
-        label.active {
-            top: -1.3rem;
-            color: var(--main-color);
-            font-size: 13px;
-        }
+        @media (min-width: 601px) {
 
-        input {
-            width: 100%;
-            padding: 0.5rem;
-            font-size: 1rem;
-            border: none;
-            border-bottom: 2px solid var(--main-color);
-            outline: none;
-            transition: border-color 0.3s;
-        }
-
-        /* ---------------------------- valid / invalid ---------------------- */
-        /* handle invalid field when not :focus
-            (set the placeholder " " on input field) */
-        input:not(:focus):not(:placeholder-shown):invalid {
-            border-bottom: 2px solid crimson;
-            color: crimson;
-        }
-
-        /* handle the label of not :focus invalid label's input */
-        input:not(:focus):not(:placeholder-shown):invalid + label {
-            color: crimson;
-        }
-
-        @media (min-width: 600px) {
             .two-columns {
                 grid-template-columns: 1fr 1fr;
                 gap: 5rem;
@@ -156,7 +122,7 @@ export class ContactForm extends LitElement {
             id: this.user?.id || null,
             avatar:  this.renderRoot.querySelector('avatar-picker').getAttribute('selected-avatar'),
             name: formData.get('name'),
-            product: formData.get('product'),
+            other: formData.get('other'),
             email: formData.get('email'),
             phone: formData.get('phone'),
         }
@@ -204,16 +170,15 @@ export class ContactForm extends LitElement {
                         </div>
                         <div class="field">
                             <input
-                                id="product"
-                                name="product"
+                                id="other"
+                                name="other"
                                 type="text"
                                 size="29"
                                 placeholder=" "
-                                required
-                                .value=${this.user?.product}
+                                .value=${this.user?.other}
                                 @focusin=${this.onFocusIn}
                                 @focusout=${this.onFocusOut}/>
-                            <label for="product">Product</label>
+                            <label for="other">Other</label>
                         </div>
                      </div>
                      <div>

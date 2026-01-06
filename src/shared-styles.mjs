@@ -96,6 +96,44 @@ export const sharedStyles = css`
         fill: var(--main-color);
     }
 
+    /* Input / Label */
+    label {
+        font-size: 17px;
+        position: absolute;
+        top: 9px;
+        left: 9px;
+        transition: top .2s ease-in-out, font-size .2s ease-in-out;
+    }
+
+    label.active {
+        top: -1.3rem;
+        color: var(--main-color);
+        font-size: 13px;
+    }
+
+    input {
+        width: 100%;
+        padding: 0.5rem;
+        font-size: 1rem;
+        border: none;
+        border-bottom: 2px solid var(--main-color);
+        outline: none;
+        transition: border-color 0.3s;
+    }
+
+    /* ---------------------------- valid / invalid ---------------------- */
+    /* handle invalid field when not :focus
+        (set the placeholder " " on input field) */
+    input:not(:focus):not(:placeholder-shown):invalid {
+        border-bottom: 2px solid crimson;
+        color: crimson;
+    }
+
+    /* handle the label of not :focus invalid label's input */
+    input:not(:focus):not(:placeholder-shown):invalid + label {
+        color: crimson;
+    }
+
     @media (min-width: 600px) {
 
         dialog {

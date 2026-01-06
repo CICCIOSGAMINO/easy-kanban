@@ -218,7 +218,6 @@ export class ContactsPage extends LitElement {
             name: '',
             email: '',
             phone: '',
-            product: '',
             avatar: 'bip',
         }
         dialog.showModal()
@@ -250,7 +249,7 @@ export class ContactsPage extends LitElement {
         await addContactToKanbanOnServer(id)
         this.requestUpdate()
 
-        snackBarEvent.detail.bkColor = '#2af255'
+        snackBarEvent.detail.bkColor = 'rgba(121, 246, 148, 1.0)'
         snackBarEvent.detail.txtColor = 'whitesmoke'
 
         snackBarEvent.detail.message = `Contact with id: ${id} added to Kanban`
@@ -300,8 +299,8 @@ export class ContactsPage extends LitElement {
                             </div>
 
                             <div class="contact-details user-general">
-                                <div>Product:</div>
-                                <div>${contact.product}</div>
+                                <div>Other:</div>
+                                <div>${contact?.other}</div>
                             </div>
                             
                             <div class="contact-buttons">

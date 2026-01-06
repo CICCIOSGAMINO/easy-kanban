@@ -1,42 +1,32 @@
 [
   {
     "id": 1,
-    "avatar": "jack",
+    "avatar": "berta",
     "name": "Zoran Mandani",
-    "product": "RayBan Frogskin",
     "email": "zoran@gmail.com",
-    "phone": "13-9899777"
-  },
-  {
-    "id": 2,
-    "avatar": "shelly",
-    "name": "Giulia Gelmi",
-    "product": "RayBan FrogSkin",
-    "email": "giulia.g@gmail.com",
-    "phone": "035-743556"
+    "phone": "13-9899777",
+    "other": ""
   },
   {
     "id": 3,
     "avatar": "jack",
     "name": "Mattia Lanfranchi",
-    "product": "Oakley Meta ",
     "email": "matt.lanf@hotmail.it",
     "phone": "+39 3245665"
-  },
-  {
-    "id": 4,
-    "avatar": "berta",
-    "name": "Roberta Masserini",
-    "product": "Person Steve McQueen ",
-    "email": "roby.masse@hotmail.it",
-    "phone": "+3976565656"
   },
   {
     "id": 5,
     "avatar": "bip",
     "name": "Marco Canali",
-    "product": "Oakley Meta Vanguard",
     "email": "marco.canali@gmail.com",
     "phone": "+393207632270"
+  },
+  {
+    "id": 6,
+    "avatar": "chen",
+    "name": "Davide Rottigni",
+    "email": "dave@koren.it",
+    "phone": "3389218530",
+    "other": ""
   }
 ]

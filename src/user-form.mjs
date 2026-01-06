@@ -116,8 +116,9 @@ export class UserForm extends LitElement {
 
         updateTaskDetailsOnServer(
             this.user.id,
-            { lastContact: new Date().toLocaleDateString('en-GB'),
-              msgCount: this.user.msgCount + 1
+            {
+                lastContact: new Date().toLocaleDateString('en-GB'),
+                msgCount: this.user.msgCount + 1
             }
         )
 
@@ -135,6 +136,7 @@ export class UserForm extends LitElement {
         updateTaskDetailsOnServer(
             this.user.id,
             {
+                product: this.user.product,
                 msgCount: this.user.msgCount
             }
         )
@@ -165,7 +167,15 @@ export class UserForm extends LitElement {
                         </div>
                         <div class="field">
                             <p class="label">Product</p>
-                            <p class="value">${this.user?.product}</p>
+                                ${this.user?.product === undefined ? 
+                                    html`
+                                        <input
+                                            type="text"
+                                            class="value"
+                                            @change=${(e) => { this.user.product = e.target.value }} />
+                                    ` : html`
+                                    <p class="value">${this.user?.product}</p>
+                                `}
                         </div>
                     </div>
 

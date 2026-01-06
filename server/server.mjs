@@ -181,6 +181,12 @@ router.post('/api/new-task', async (ctx) => {
             lastContact: new Date().toLocaleDateString('en-GB')
         }
 
+        if (kanbansData[0]?.tasks.map(t => t.id).includes(newTask.id)) {
+            ctx.status = 400
+            ctx.body = { error: 'Task with this client ID already exists in the kanban' }
+            return
+        }
+
         kanbansData[0]?.tasks.push(newTask)
 
         await fs.writeFile(kanbanFile, JSON.stringify(kanbansData, null, 2))
@@ -253,12 +259,15 @@ router.post('/api/update-task-details/:id', async (ctx) => {
                 ...kanban,
                 tasks: kanban.tasks.map(task => {
                     if (task.id === Number(id)) {
+
                         return {
                             ...task,
                             ...updatedDetails
                         }
+                    } else {
+                        return task
                     }
-                    return task
+                    
                 })
             }
         })

@@ -1,5 +1,6 @@
 import { LitElement, html, css } from 'lit'
 import { repeat } from 'lit/directives/repeat.js'
+import { classMap } from 'lit/directives/class-map.js'
 import { sharedStyles } from './shared-styles.mjs'
 import { deleteIcon } from './mySVG.mjs'
 
@@ -101,6 +102,14 @@ export class KanbanPage extends LitElement {
 
             cursor: pointer;
         }
+
+        .no-product {
+            background-color: rgba(255, 215, 0, 0.2);
+        }
+
+        .in-delay {
+            border: 2px solid red;
+        }
         
 
         @media (min-width: 600px) {
@@ -193,6 +202,18 @@ export class KanbanPage extends LitElement {
         const draggedElement =
             this.renderRoot.querySelector('#dragged-task')
 
+        console.log(`@TEST ${item => item.taskId === Number(newPosition)}`)
+
+        if (this.isInDelay(
+            draggedElement.utente.since,
+            this.items.find(item => item.taskId === Number(newPosition)).timing))
+        {
+            draggedElement.classList.remove('in-delay')
+        } else {
+            draggedElement.classList.add('in-delay')
+        }
+        
+
         draggedElement.remove()
         event.target.querySelector('.tasks').appendChild(draggedElement)
 
@@ -213,7 +234,8 @@ export class KanbanPage extends LitElement {
 
         draggedElement.remove()
 
-        console.log(`@DROP_CLIENT_ID (${clientId})`)
+        // @DEBUG
+        // console.log(`@DROP_CLIENT_ID (${clientId})`)
     }
 
     onClick (event) {
@@ -234,7 +256,12 @@ export class KanbanPage extends LitElement {
 
     }
 
+    isInDelay (since, timing) {
+        return new Date(since).getTime() + timing * 24 * 60 * 60 * 1000 < Date.now()
+    }
+
     render () {
+
         return html`
 
             <h1><a href="/">H</a> / Kanban</h1>
@@ -263,7 +290,11 @@ export class KanbanPage extends LitElement {
                                     (subtask) => subtask.id,
                                     (subtask, subindex) => html`
                                         <li
-                                            class="task"
+                                            class="${classMap({
+                                                'task': true,
+                                                'no-product': subtask?.product === undefined,
+                                                'in-delay': this.isInDelay(subtask.since, task.timing)
+                                            })}"
                                             .utente=${subtask}
                                             .message=${task.message}
                                             data-task=${subtask}

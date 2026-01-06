@@ -2,7 +2,7 @@ Easy Kanban
 ===========
 [TOC]
 
-v0.11.0 - Jan 2026
+v0.13.0 - Jan 2026
 
 A simple and easy to use Kanban board application built with web technologies. Just born to handle clients and steps, configure the data json files and start to use it!
 
@@ -41,9 +41,6 @@ npm install
 
 # run easy-kanban
 npm run start
-
-
-kanban.local  ciccio <psw>  10.240.206.76
 ```
 
 # Nginx

@@ -1,6 +1,6 @@
 {
   "name": "easy-kanban",
-  "version": "0.11.0",
+  "version": "0.13.0",
   "description": "Easy Kanban Board using Lit and Vite",
   "license": "ISC",
   "author": "@cicciosgamino",
