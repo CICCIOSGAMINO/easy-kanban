@@ -10,7 +10,7 @@
     "dev": "vite --host",
     "build": "vite build",
     "preview": "vite preview --port 3000 --host",
-    "start": "node server/server.mjs"
+    "start": "npm run build && node server/server.mjs"
   },
   "dependencies": {
     "@cicciosgamino/snack-bar": "^1.4.0",

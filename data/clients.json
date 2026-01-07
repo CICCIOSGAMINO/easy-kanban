@@ -28,5 +28,13 @@
     "email": "dave@koren.it",
     "phone": "3389218530",
     "other": ""
+  },
+  {
+    "id": 7,
+    "avatar": "berta",
+    "name": "Teofilo",
+    "other": "",
+    "email": "teo@gmail.com",
+    "phone": "344556677"
   }
 ]

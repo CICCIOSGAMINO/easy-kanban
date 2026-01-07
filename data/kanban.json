@@ -11,24 +11,6 @@
         "msgCount": 3,
         "since": "02/01/2026",
         "lastContact": "05/01/2026"
-      },
-      {
-        "id": 5,
-        "name": "Marco Canali",
-        "email": "marco.canali@gmail.com",
-        "phone": "+393207632270",
-        "msgCount": 0,
-        "since": "06/01/2026",
-        "lastContact": "06/01/2026"
-      },
-      {
-        "id": 6,
-        "name": "Davide Rottigni",
-        "email": "dave@koren.it",
-        "phone": "3389218530",
-        "msgCount": 0,
-        "since": "06/01/2026",
-        "lastContact": "06/01/2026"
       }
     ],
     "timing": 0,
@@ -38,16 +20,6 @@
     "taskId": 1,
     "taskName": "45Giorni",
     "tasks": [
-      {
-        "id": 5,
-        "name": "Marco Canali",
-        "product": "Oakley Meta Vanguard",
-        "email": "marco.canali@gmail.com",
-        "phone": "+393207632270",
-        "msgCount": 3,
-        "since": "05/01/2025",
-        "lastContact": "05/01/2026"
-      },
       {
         "id": 0,
         "name": "John Doeeee",
@@ -65,6 +37,15 @@
         "msgCount": 0,
         "since": "06/01/2026",
         "lastContact": "06/01/2026"
+      },
+      {
+        "id": 6,
+        "name": "Davide Rottigni",
+        "email": "dave@koren.it",
+        "phone": "3389218530",
+        "msgCount": 0,
+        "since": "06/01/2026",
+        "lastContact": "06/01/2026"
       }
     ],
     "timing": 45,
@@ -73,7 +54,18 @@
   {
     "taskId": 2,
     "taskName": "1Anno",
-    "tasks": [],
+    "tasks": [
+      {
+        "id": 7,
+        "name": "Teofilo",
+        "email": "teo@gmail.com",
+        "phone": "344556677",
+        "msgCount": 1,
+        "since": "07/01/2026",
+        "lastContact": "07/01/2026",
+        "product": "Oakley Meta Vanguard "
+      }
+    ],
     "timing": 365,
     "message": "Follow up scheduled for next week."
   },

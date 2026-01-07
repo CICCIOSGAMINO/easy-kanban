@@ -202,18 +202,6 @@ export class KanbanPage extends LitElement {
         const draggedElement =
             this.renderRoot.querySelector('#dragged-task')
 
-        console.log(`@TEST ${item => item.taskId === Number(newPosition)}`)
-
-        if (this.isInDelay(
-            draggedElement.utente.since,
-            this.items.find(item => item.taskId === Number(newPosition)).timing))
-        {
-            draggedElement.classList.remove('in-delay')
-        } else {
-            draggedElement.classList.add('in-delay')
-        }
-        
-
         draggedElement.remove()
         event.target.querySelector('.tasks').appendChild(draggedElement)
 
@@ -257,11 +245,20 @@ export class KanbanPage extends LitElement {
     }
 
     isInDelay (since, timing) {
+
+        // @DEBUG
+        console.log(`Date(since): ${new Date(since).getTime()}`)
+        console.log(`Timing (ms): ${timing * 24 * 60 * 60 * 1000}`)
+        console.log(`Deadline (ms): ${new Date(since).getTime() + timing * 24 * 60 * 60 * 1000}`)
+        console.log(`Now (ms): ${Date.now()}`)
         return new Date(since).getTime() + timing * 24 * 60 * 60 * 1000 < Date.now()
     }
 
     render () {
 
+        // TODO
+        // 'in-delay': this.isInDelay(subtask.since, task.timing)
+        
         return html`
 
             <h1><a href="/">H</a> / Kanban</h1>
@@ -292,8 +289,7 @@ export class KanbanPage extends LitElement {
                                         <li
                                             class="${classMap({
                                                 'task': true,
-                                                'no-product': subtask?.product === undefined,
-                                                'in-delay': this.isInDelay(subtask.since, task.timing)
+                                                'no-product': subtask?.product === undefined
                                             })}"
                                             .utente=${subtask}
                                             .message=${task.message}
