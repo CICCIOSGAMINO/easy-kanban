@@ -1,6 +1,6 @@
 {
   "name": "easy-kanban",
-  "version": "0.13.0",
+  "version": "0.15.0",
   "description": "Easy Kanban Board using Lit and Vite",
   "license": "ISC",
   "author": "@cicciosgamino",
@@ -15,14 +15,15 @@
   "dependencies": {
     "@cicciosgamino/snack-bar": "^1.4.0",
     "@lit-labs/router": "^0.1.4",
-    "lit": "^3.3.2"
-  },
-  "devDependencies": {
+    "koa-send": "^5.0.1",
     "@koa/cors": "^5.0.0",
     "@koa/router": "^15.1.1",
     "koa": "^3.1.1",
     "koa-body": "^7.0.1",
     "koa-static": "^5.0.0",
+    "lit": "^3.3.2"
+  },
+  "devDependencies": {
     "vite": "^7.3.0"
   }
 }

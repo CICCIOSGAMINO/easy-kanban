@@ -3,12 +3,16 @@ import Router from '@koa/router'
 import cors from '@koa/cors'
 import koaBody from 'koa-body'
 import serve from 'koa-static'
+import send from 'koa-send'
 import fs from 'fs/promises'
 
 
 const SERVER_PORT = 3000
 const app = new Koa()
 const router = new Router()
+
+// Static files directory
+const staticDir = new URL('../dist/', import.meta.url).pathname
 
 // Enable CORS
 app.use(cors())
@@ -33,7 +37,7 @@ app.use(async (ctx, next) => {
 })
 
 // ------------------------------ Static Files --------------------------------
-app.use(serve(new URL('../dist/', import.meta.url).pathname), {
+app.use(serve(staticDir), {
     maxAge: 864e5, // 1 day
     gzip: true,
     brotli: true,
@@ -176,9 +180,8 @@ router.post('/api/new-task', async (ctx) => {
             email: clientData[0].email,
             phone: clientData[0].phone,
             msgCount: 0,
-            // format the Date only with DD/MM/YYYY
-            since: new Date().toLocaleDateString('en-GB'),
-            lastContact: new Date().toLocaleDateString('en-GB')
+            since: new Date(),
+            lastContact: new Date()
         }
 
         if (kanbansData[0]?.tasks.map(t => t.id).includes(newTask.id)) {
@@ -311,6 +314,18 @@ router.delete('/api/delete-task/:id', async (ctx) => {
 })
 
 app.use(router.routes()).use(router.allowedMethods())
+
+// SPA Fallback - serve index.html for all non-API routes
+app.use(async (ctx, next) => {
+  // Skip if it's an API route or static file
+  if (ctx.path.startsWith('/api') || ctx.path.includes('.')) {
+    await next()
+    return
+  }
+  
+  // Serve index.html for all other routes
+  await send(ctx, 'index.html', { root: staticDir })
+})
 
 
 const server = app.listen(SERVER_PORT, () => {

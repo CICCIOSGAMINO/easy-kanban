@@ -6,6 +6,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.15.0] - 07-01-2026
+
+### Changed
+	- Koa HTTP server to serve files for a SPA
+
+### Added
+	- koa-send package to serve static files
+
 ## [0.13.0] - 05-01-2026
 
 ### Added

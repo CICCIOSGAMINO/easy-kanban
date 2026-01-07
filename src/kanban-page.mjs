@@ -175,6 +175,7 @@ export class KanbanPage extends LitElement {
         // set the id to identify the dragged element
         event.target.id = 'dragged-task'
 
+        // @DEBUG
         console.log(`@DRAG_START (${taskId}, ${clientId})`)
 
         // custom type to identify a task drag
@@ -196,11 +197,26 @@ export class KanbanPage extends LitElement {
         }
 
         const newPosition = event.currentTarget.dataset.task
-        const taskId = event.dataTransfer.getData('task')
         const clientId = event.dataTransfer.getData('client')
 
         const draggedElement =
             this.renderRoot.querySelector('#dragged-task')
+
+        // move in the items array new position
+        this.items = this.items.map((task) => {
+
+            // remove from old position
+            task.tasks = task.tasks.filter(
+                (subtask) => subtask.id !== draggedElement.utente.id
+            )
+
+            // add to new position
+            if (task.taskId === newPosition) {
+                task.tasks.push(draggedElement.utente)   
+            }
+
+            return task
+        })
 
         draggedElement.remove()
         event.target.querySelector('.tasks').appendChild(draggedElement)
@@ -212,9 +228,7 @@ export class KanbanPage extends LitElement {
     onDropDelete (event) {
         event.preventDefault()
 
-        const taskId = event.dataTransfer.getData('task')
         const clientId = event.dataTransfer.getData('client')
-
         deleteContactFromKanbanOnServer(clientId)
 
         const draggedElement =
@@ -245,20 +259,11 @@ export class KanbanPage extends LitElement {
     }
 
     isInDelay (since, timing) {
-
-        // @DEBUG
-        console.log(`Date(since): ${new Date(since).getTime()}`)
-        console.log(`Timing (ms): ${timing * 24 * 60 * 60 * 1000}`)
-        console.log(`Deadline (ms): ${new Date(since).getTime() + timing * 24 * 60 * 60 * 1000}`)
-        console.log(`Now (ms): ${Date.now()}`)
-        return new Date(since).getTime() + timing * 24 * 60 * 60 * 1000 < Date.now()
+        return new Date(since).getTime() + timing * 24 * 60 * 60 * 1000 < new Date().getTime()
     }
 
     render () {
 
-        // TODO
-        // 'in-delay': this.isInDelay(subtask.since, task.timing)
-        
         return html`
 
             <h1><a href="/">H</a> / Kanban</h1>
@@ -274,7 +279,6 @@ export class KanbanPage extends LitElement {
 
                 ${repeat(
                     this.items,
-                    (task) => task.taskId,
                     (task, index) => html`
                         <div class="task-column"
                             data-task=${task.taskId}
@@ -284,14 +288,15 @@ export class KanbanPage extends LitElement {
                             <ul class="tasks">
                                 ${repeat(
                                     task.tasks,
-                                    (subtask) => subtask.id,
                                     (subtask, subindex) => html`
                                         <li
                                             class="${classMap({
                                                 'task': true,
-                                                'no-product': subtask?.product === undefined
+                                                'no-product': subtask?.product === undefined,
+                                                'in-delay': this.isInDelay(subtask.since, task.timing)
                                             })}"
                                             .utente=${subtask}
+                                            .task=${task.taskId}
                                             .message=${task.message}
                                             data-task=${subtask}
                                             data-id=${subtask.id}

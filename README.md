@@ -2,7 +2,7 @@ Easy Kanban
 ===========
 [TOC]
 
-v0.13.0 - Jan 2026
+v0.15.0 - Jan 2026
 
 A simple and easy to use Kanban board application built with web technologies. Just born to handle clients and steps, configure the data json files and start to use it!
 

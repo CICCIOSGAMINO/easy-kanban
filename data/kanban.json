@@ -5,12 +5,21 @@
     "tasks": [
       {
         "id": 3,
-        "name": "Giulia gelmi",
-        "email": "giulia@gmail.com",
-        "phone": "23455666",
-        "msgCount": 3,
-        "since": "02/01/2026",
-        "lastContact": "05/01/2026"
+        "name": "Mattia Lanfranchi",
+        "email": "matt.lanf@hotmail.it",
+        "phone": "+39 3245665",
+        "msgCount": 0,
+        "since": "2026-01-07T17:11:30.825Z",
+        "lastContact": "2026-01-07T17:11:30.825Z"
+      },
+      {
+        "id": 5,
+        "name": "Marco Canali",
+        "email": "marco.canali@gmail.com",
+        "phone": "+393207632270",
+        "msgCount": 0,
+        "since": "2026-01-07T17:11:32.807Z",
+        "lastContact": "2026-01-07T17:11:32.807Z"
       }
     ],
     "timing": 0,
@@ -21,31 +30,13 @@
     "taskName": "45Giorni",
     "tasks": [
       {
-        "id": 0,
-        "name": "John Doeeee",
-        "email": "john.doe@example.com",
-        "phone": "+1234567890",
-        "msgCount": 4,
-        "since": "15-01-2023",
-        "lastContact": "25-12-2025"
-      },
-      {
         "id": 1,
         "name": "Zoran Mandani",
         "email": "zoran@gmail.com",
         "phone": "13-9899777",
         "msgCount": 0,
-        "since": "06/01/2026",
-        "lastContact": "06/01/2026"
-      },
-      {
-        "id": 6,
-        "name": "Davide Rottigni",
-        "email": "dave@koren.it",
-        "phone": "3389218530",
-        "msgCount": 0,
-        "since": "06/01/2026",
-        "lastContact": "06/01/2026"
+        "since": "2026-01-07T17:11:29.080Z",
+        "lastContact": "2026-01-07T17:11:29.080Z"
       }
     ],
     "timing": 45,
@@ -60,10 +51,9 @@
         "name": "Teofilo",
         "email": "teo@gmail.com",
         "phone": "344556677",
-        "msgCount": 1,
-        "since": "07/01/2026",
-        "lastContact": "07/01/2026",
-        "product": "Oakley Meta Vanguard "
+        "msgCount": 0,
+        "since": "2026-01-07T17:11:35.378Z",
+        "lastContact": "2026-01-07T17:11:35.378Z"
       }
     ],
     "timing": 365,
@@ -72,25 +62,24 @@
   {
     "taskId": 3,
     "taskName": "23Mesi",
-    "tasks": [],
+    "tasks": [
+      {
+        "id": 6,
+        "name": "Davide Rottigni",
+        "email": "dave@koren.it",
+        "phone": "3389218530",
+        "msgCount": 0,
+        "since": "2026-01-07T17:11:34.223Z",
+        "lastContact": "2026-01-07T17:11:34.223Z"
+      }
+    ],
     "timing": 690,
     "message": "Follow up scheduled for next week."
   },
   {
     "taskId": 4,
     "taskName": "35Mesi",
-    "tasks": [
-      {
-        "id": 4,
-        "name": "Roberta Masserini",
-        "product": "Person Steve McQueen ",
-        "email": "roby.masse@hotmail.it",
-        "phone": "+3976565656",
-        "msgCount": 0,
-        "since": "02/01/2026",
-        "lastContact": "02/01/2026"
-      }
-    ],
+    "tasks": [],
     "timing": 1050,
     "message": "Follow up scheduled for next week."
   }

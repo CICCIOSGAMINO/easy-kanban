@@ -163,7 +163,10 @@ export class UserForm extends LitElement {
                         </div>
                         <div class="field">
                             <p class="label">Since</p>
-                            <p class="value">${this.user?.since} / ${this.user?.lastContact}</p>
+                            <p class="value">
+                                ${new Date(this.user?.since).toLocaleDateString('en-GB')} / 
+                                ${new Date(this.user?.lastContact).toLocaleDateString('en-GB')}
+                            </p>
                         </div>
                         <div class="field">
                             <p class="label">Product</p>
