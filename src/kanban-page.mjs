@@ -91,8 +91,8 @@ export class KanbanPage extends LitElement {
             position: fixed;
             bottom: 1rem;
             right: 1rem;
-            width: 4rem;
-            height: 4rem;
+            width: 5rem;
+            height: 5rem;
             border: 2px dashed var(--main-color);
             border-radius: 50%;
             display: grid;
@@ -136,9 +136,10 @@ export class KanbanPage extends LitElement {
     connectedCallback () {
         super.connectedCallback()
 
-        this.addEventListener('request-update', () => {
-            this.requestUpdate()
-        })  
+        this.addEventListener('close-dialog', () => {
+            const dialog = this.renderRoot.querySelector('dialog')
+            dialog.close()
+        })
     }
 
     firstUpdated () {
@@ -175,9 +176,6 @@ export class KanbanPage extends LitElement {
         // set the id to identify the dragged element
         event.target.id = 'dragged-task'
 
-        // @DEBUG
-        console.log(`@DRAG_START (${taskId}, ${clientId})`)
-
         // custom type to identify a task drag
         event.dataTransfer.setData('task', taskId)
         event.dataTransfer.setData('client', clientId)
@@ -210,18 +208,15 @@ export class KanbanPage extends LitElement {
                 (subtask) => subtask.id !== draggedElement.utente.id
             )
 
-            // add to new position
-            if (task.taskId === newPosition) {
+            
+            if (task.taskId === Number(newPosition)) {
+                // add to new position
                 task.tasks.push(draggedElement.utente)   
             }
 
             return task
         })
 
-        draggedElement.remove()
-        event.target.querySelector('.tasks').appendChild(draggedElement)
-
-        // console.log(`@DROP client ${clientId} / newPosition ${newPosition}`)
         updateTaskPositionOnServer(clientId, newPosition)
     }
 
@@ -250,12 +245,8 @@ export class KanbanPage extends LitElement {
 
         userForm.user = utente
         userForm.message = message
-
+        
         dialog.showModal()
-        dialog.addEventListener('close', () => {
-            userForm.user = null
-        })
-
     }
 
     isInDelay (since, timing) {
@@ -297,9 +288,9 @@ export class KanbanPage extends LitElement {
                                             })}"
                                             .utente=${subtask}
                                             .task=${task.taskId}
-                                            .message=${task.message}
-                                            data-task=${subtask}
+                                            data-task=${task.taskId}
                                             data-id=${subtask.id}
+                                            .message=${task.message}
                                             draggable="true"
                                             @click=${this.onClick}
                                             @dragstart=${this.onDragStart}

@@ -6,6 +6,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.17.0] - 08-01-2026
+
+### Changed
+	- Update README.md with Raspberry Pi 4 setup instructions
+	- Fix the onDrop classMap dynamic update issue
+	- Fix the firefox button issue
+	- Fix the change message in kanban issue 
+
 ## [0.15.0] - 07-01-2026
 
 ### Changed

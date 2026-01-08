@@ -4,15 +4,6 @@
     "taskName": "Inizio",
     "tasks": [
       {
-        "id": 3,
-        "name": "Mattia Lanfranchi",
-        "email": "matt.lanf@hotmail.it",
-        "phone": "+39 3245665",
-        "msgCount": 0,
-        "since": "2026-01-07T17:11:30.825Z",
-        "lastContact": "2026-01-07T17:11:30.825Z"
-      },
-      {
         "id": 5,
         "name": "Marco Canali",
         "email": "marco.canali@gmail.com",
@@ -20,14 +11,41 @@
         "msgCount": 0,
         "since": "2026-01-07T17:11:32.807Z",
         "lastContact": "2026-01-07T17:11:32.807Z"
+      },
+      {
+        "id": 7,
+        "name": "Teofilo",
+        "email": "teo@gmail.com",
+        "phone": "344556677",
+        "msgCount": 0,
+        "since": "2026-01-07T17:11:35.378Z",
+        "lastContact": "08/01/2026",
+        "product": "Oaklet Vanguard "
       }
     ],
     "timing": 0,
-    "message": "Follow up scheduled for next week."
+    "message": "Message task 0, Inizio"
   },
   {
     "taskId": 1,
     "taskName": "45Giorni",
+    "tasks": [
+      {
+        "id": 3,
+        "name": "Mattia Lanfranchi",
+        "email": "matt.lanf@hotmail.it",
+        "phone": "+39 3245665",
+        "msgCount": 3,
+        "since": "2026-01-07T17:11:30.825Z",
+        "lastContact": "08/01/2026"
+      }
+    ],
+    "timing": 45,
+    "message": "Message task 1, 45Giorni"
+  },
+  {
+    "taskId": 2,
+    "taskName": "1Anno",
     "tasks": [
       {
         "id": 1,
@@ -39,25 +57,8 @@
         "lastContact": "2026-01-07T17:11:29.080Z"
       }
     ],
-    "timing": 45,
-    "message": "Follow up scheduled for next week."
-  },
-  {
-    "taskId": 2,
-    "taskName": "1Anno",
-    "tasks": [
-      {
-        "id": 7,
-        "name": "Teofilo",
-        "email": "teo@gmail.com",
-        "phone": "344556677",
-        "msgCount": 0,
-        "since": "2026-01-07T17:11:35.378Z",
-        "lastContact": "2026-01-07T17:11:35.378Z"
-      }
-    ],
     "timing": 365,
-    "message": "Follow up scheduled for next week."
+    "message": "Message task 2, 1Anno"
   },
   {
     "taskId": 3,
@@ -74,13 +75,13 @@
       }
     ],
     "timing": 690,
-    "message": "Follow up scheduled for next week."
+    "message": "Message task 3, 23Mesi"
   },
   {
     "taskId": 4,
     "taskName": "35Mesi",
     "tasks": [],
     "timing": 1050,
-    "message": "Follow up scheduled for next week."
+    "message": "Message task 4, 35Mesi"
   }
 ]

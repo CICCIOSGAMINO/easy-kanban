@@ -3,11 +3,11 @@ import { sharedStyles } from './shared-styles.mjs'
 
 import { updateTaskDetailsOnServer } from './server-api.mjs'
 
-const requestUpdateEvent = new CustomEvent(
-    'request-update', {
+const closeDialogEvent = new CustomEvent(
+    'close-dialog', {
         bubbles: true,
         composed: true,
-})                   
+})
 
 /**
  * Form is used for user details display and message sending
@@ -86,27 +86,38 @@ export class UserForm extends LitElement {
             attribute: false,
             state: true,
         },
-        message: { type: String },
+        message: {
+            type: String,
+            attribute: false,
+            state: true,
+        },
     }
 
     constructor () {
         super()
         this.user = null
+        this.message = ''
     }
 
     msgCountPlus (e) {
         e.preventDefault()
-        this.user.msgCount += 1
+        // this.user.msgCount += 1
+        // this.requestUpdate()
 
-        this.requestUpdate()
+        this.user = {
+            ...this.user,
+            msgCount: this.user.msgCount + 1
+        }
     }
 
     msgCountMinus (e) {
         e.preventDefault()
         if (this.user.msgCount > 0) {
-            this.user.msgCount -= 1
 
-            this.requestUpdate()
+            this.user = {
+                ...this.user,
+                msgCount: this.user.msgCount - 1
+            }       
         }
     }
 
@@ -131,7 +142,7 @@ export class UserForm extends LitElement {
     }
 
     saveDetails (e) {
-        // e.preventDefault()
+        e.preventDefault()
 
         updateTaskDetailsOnServer(
             this.user.id,
@@ -141,8 +152,12 @@ export class UserForm extends LitElement {
             }
         )
 
-        this.dispatchEvent(requestUpdateEvent)
+        this.closeDialog(e)
+    }
 
+    closeDialog (e) {
+        e.preventDefault()
+        this.dispatchEvent(closeDialogEvent)
     }
 
     render () {
@@ -196,7 +211,7 @@ export class UserForm extends LitElement {
                         </div>
                         <div class="field">
                             <p class="label">Message</p>
-                            <textarea class="value" rows="4" cols="35" .value=${this?.message}></textarea>
+                            <textarea class="value" rows="4" cols="35" .value=${this.message}></textarea>
                         </div>
                         <div class="field">
                             <button class="w-btn" @click=${this.sendMessage}>Send Message</button>
@@ -205,7 +220,9 @@ export class UserForm extends LitElement {
                 </div>
 
                 <div>
-                    <button value="close">Close</button>
+                    <button
+                        value="close"
+                        @click=${this.closeDialog}>Close</button>
                     <button
                         class="save-btn"
                         @click=${this.saveDetails}>

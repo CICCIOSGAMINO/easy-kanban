@@ -2,7 +2,7 @@ Easy Kanban
 ===========
 [TOC]
 
-v0.15.0 - Jan 2026
+v0.17.0 - Jan 2026
 
 A simple and easy to use Kanban board application built with web technologies. Just born to handle clients and steps, configure the data json files and start to use it!
 
@@ -41,6 +41,44 @@ npm install
 
 # run easy-kanban
 npm run start
+```
+
+## Raspberry Pi 4 Configuration
+Here the network configuration to set a static IP address on Raspberry Pi 4 running Ubuntu Server 25.10
+
+```bash
+sudo nano /etc/netplan/50-cloud-init.yaml
+```
+
+```yaml
+network:
+  version: 2
+  renderer: networkd
+  ethernets:
+    eth0:
+      addresses:
+        - 192.168.1.100/24
+      routes:
+        - to: default
+          via: 192.168.1.1
+          metric: 100
+      nameservers:
+        addresses: [192.168.1.1, 8.8.8.8]
+      dhcp4: no
+  wifis:
+    wlan0:
+      dhcp4: yes
+      dhcp4-overrides:
+        route-metric: 200  # Higher metric = lower priority than ethernet
+      access-points:
+        "your-wifi-ssid":
+          password: "your-wifi-password"
+```
+
+
+```bash
+# Check what Netplan will generate
+sudo netplan generate --debug
 ```
 
 # Nginx
@@ -83,6 +121,40 @@ sudo nginx -t
 
 # restart nginx
 sudo systemctl restart nginx
+```
+
+# Node.js and pm2 as a service
+For Node.js applications, PM2 is often the best choice because:
+
+- Automatic restart on crashes
+- Log management
+- Process monitoring
+- Cluster mode for multiple cores
+- Simple startup script generation 
+
+Quick PM2 setup:
+
+```bash
+# Install PM2
+sudo npm install -g pm2
+
+# Start your app
+pm2 start server.js --name kanban-app
+
+# Generate and enable startup script
+pm2 startup
+# Run the command it outputs
+
+# Save the process list
+pm2 save
+
+# Set PM2 to start on boot
+pm2 resurrect
+To check if it's working after reboot:
+
+bash
+pm2 status
+pm2 logs
 ```
 
 
