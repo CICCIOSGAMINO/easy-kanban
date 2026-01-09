@@ -391,7 +391,7 @@ export class KanbanPage extends LitElement {
                                             class="${classMap({
                                                 'task': true,
                                                 'no-product': subtask.product === undefined,
-                                                'in-delay': this.isInDelay(subtask.since, task.timing)
+                                                'in-delay': this.isInDelay(subtask?.since, task?.timing)
                                             })}"
                                             .utente=${subtask}
                                             .task=${task.taskId}

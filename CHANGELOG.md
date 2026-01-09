@@ -6,7 +6,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-## [0.19.0] - 09-01-2026
+## [0.19.1] - 09-01-2026
 
 ### Added
 	- Glass Lens feature to contacts page
@@ -16,6 +16,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 	- Minor version updates 
+	- since > ?.since
 
 ## [0.17.0] - 08-01-2026
 
