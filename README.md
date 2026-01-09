@@ -2,7 +2,7 @@ Easy Kanban
 ===========
 [TOC]
 
-v0.17.0 - Jan 2026
+v0.19.0 - Jan 2026
 
 A simple and easy to use Kanban board application built with web technologies. Just born to handle clients and steps, configure the data json files and start to use it!
 
@@ -150,11 +150,16 @@ pm2 save
 
 # Set PM2 to start on boot
 pm2 resurrect
-To check if it's working after reboot:
+# To check if it's working after reboot:
 
 bash
 pm2 status
 pm2 logs
+
+# list, stop and restart application
+pm2 list
+pm2 stop node-kanban
+pm2 restart node-kanban
 ```
 
 

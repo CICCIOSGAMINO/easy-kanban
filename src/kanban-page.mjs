@@ -2,7 +2,11 @@ import { LitElement, html, css } from 'lit'
 import { repeat } from 'lit/directives/repeat.js'
 import { classMap } from 'lit/directives/class-map.js'
 import { sharedStyles } from './shared-styles.mjs'
-import { deleteIcon } from './mySVG.mjs'
+import {
+    deleteIcon,
+    contactLensesIcon,
+    glassesIcon
+} from './mySVG.mjs'
 
 import {
     deleteContactFromKanbanOnServer,
@@ -103,6 +107,27 @@ export class KanbanPage extends LitElement {
             cursor: pointer;
         }
 
+        .delete-zone svg {
+           pointer-events: none;
+        }
+
+        .delete-zone:hover {
+            border: 2px dashed crimson;
+        }
+
+        .delete-zone:hover svg {
+            fill: red;
+        }
+
+        .delete-zone.drag-over {
+            border: 2px dashed crimson;
+        }
+
+        .delete-zone.drag-over svg {
+            fill: red;
+            pointer-events: none;
+        }
+
         .no-product {
             background-color: rgba(255, 215, 0, 0.2);
         }
@@ -110,11 +135,36 @@ export class KanbanPage extends LitElement {
         .in-delay {
             border: 2px solid red;
         }
-        
+
+        .eye-container {
+            position: absolute;
+            top: 1rem;
+            right: 1.3rem;
+
+            display: grid;
+            grid-template-columns: auto auto;
+            place-items: center;
+        }
+
+        #glasses-title {
+            visibility: hidden;
+        }
+
+        #eyeBtn {
+
+            > svg {
+                width: 36px;
+                height: 36px;
+            }
+        }
 
         @media (min-width: 600px) {
             .container {
                 flex-direction: row;
+            }
+
+            #glasses-title {
+                visibility: visible;
             }
         }
 
@@ -124,13 +174,20 @@ export class KanbanPage extends LitElement {
         items: {
             type: Array,
             state: true
+        },
+        isGlassesOn: {
+            type: Boolean,
+            state: true
         }
     }
 
     constructor () {
         super ()
         this.items = []
-        this.jsonFileURL = '/api/kanban'
+        // load default file for glasses
+        this.jsonFileURL = '/api/kanban/glasses'
+
+        this.isGlassesOn = true
     }
 
     connectedCallback () {
@@ -139,12 +196,25 @@ export class KanbanPage extends LitElement {
         this.addEventListener('close-dialog', () => {
             const dialog = this.renderRoot.querySelector('dialog')
             dialog.close()
+
+            this.requestUpdate()
         })
     }
 
     firstUpdated () {
         super.firstUpdated()
         this.loadKanban()
+
+        const dropZone = this.renderRoot.querySelector('#deleteDiv')
+        if (dropZone) {
+            dropZone.addEventListener('dragenter', () => {
+                dropZone.classList.add('drag-over')
+            })
+
+            dropZone.addEventListener('dragleave', () => {
+                dropZone.classList.remove('drag-over')
+            })
+        }
     }
 
     async loadKanban () {
@@ -165,6 +235,8 @@ export class KanbanPage extends LitElement {
         if (event.dataTransfer.types.includes('task')) {
             event.preventDefault()
         }
+
+
     }
 
     onDragStart (event) {
@@ -217,14 +289,21 @@ export class KanbanPage extends LitElement {
             return task
         })
 
-        updateTaskPositionOnServer(clientId, newPosition)
+        updateTaskPositionOnServer(
+            clientId,
+            newPosition,
+            this.isGlassesOn ? 'glasses' : 'lenses'
+        )
     }
 
     onDropDelete (event) {
         event.preventDefault()
 
         const clientId = event.dataTransfer.getData('client')
-        deleteContactFromKanbanOnServer(clientId)
+        deleteContactFromKanbanOnServer(
+            clientId,
+            this.isGlassesOn ? 'glasses' : 'lenses'
+        )
 
         const draggedElement =
             this.renderRoot.querySelector('#dragged-task')
@@ -245,6 +324,7 @@ export class KanbanPage extends LitElement {
 
         userForm.user = utente
         userForm.message = message
+        userForm.isGlassesOn = this.isGlassesOn
         
         dialog.showModal()
     }
@@ -253,13 +333,40 @@ export class KanbanPage extends LitElement {
         return new Date(since).getTime() + timing * 24 * 60 * 60 * 1000 < new Date().getTime()
     }
 
+    onEyeClick () {
+
+        this.isGlassesOn = !this.isGlassesOn
+
+        if (this.isGlassesOn) {
+            this.jsonFileURL = '/api/kanban/glasses'  // load default file for glasses
+        } else {
+            this.jsonFileURL = '/api/kanban/lenses'
+        }
+
+        this.loadKanban()
+    }
+
     render () {
 
         return html`
 
-            <h1><a href="/">H</a> / Kanban</h1>
+            <h1>
+                <a href="/">H</a> / Kanban
+            </h1>
+
+            <div class="eye-container">
+                <h1 id="glasses-title">${this.isGlassesOn ? 'Glasses' : 'Lenses'} / </h1>
+                <button
+                    id="eyeBtn"
+                    class="eye-icon"
+                    @click=${this.onEyeClick}>
+                    ${this.isGlassesOn ? glassesIcon : contactLensesIcon}
+                </button>
+            </div>
+            
 
             <div
+                id="deleteDiv"
                 class="delete-zone"
                 @dragover=${this.onDragOver}
                 @drop=${this.onDropDelete}>
@@ -283,7 +390,7 @@ export class KanbanPage extends LitElement {
                                         <li
                                             class="${classMap({
                                                 'task': true,
-                                                'no-product': subtask?.product === undefined,
+                                                'no-product': subtask.product === undefined,
                                                 'in-delay': this.isInDelay(subtask.since, task.timing)
                                             })}"
                                             .utente=${subtask}

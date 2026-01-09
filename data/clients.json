@@ -36,5 +36,13 @@
     "other": "",
     "email": "teo@gmail.com",
     "phone": "344556677"
+  },
+  {
+    "id": 8,
+    "avatar": "chen",
+    "name": "Kurt Gödel",
+    "other": "nothing",
+    "email": "kurt_g@gmail.com",
+    "phone": "234445666"
   }
 ]

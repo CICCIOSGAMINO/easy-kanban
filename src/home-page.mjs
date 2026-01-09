@@ -97,8 +97,8 @@ export class HomePage extends LitElement {
             cursor: pointer;
 
             > svg {
-                width: 36px;
-                height: 36px;
+                width: 45px;
+                height: 45px;
                 fill: var(--icon-bg-color);
             }
         }
@@ -215,16 +215,23 @@ export class HomePage extends LitElement {
                         ${myChart}
                     </div>
                     
-                    <p>v1.0.0 - Jen 2026</p>
+                    <!-- version -->
+                    <p>v0.19.0 - Jen 2026</p>
                 </div>
                 <div id="b-side">
-                    <div @click=${this.onClick} class="box-icon" data-page="contacts">
+                    <div
+                        class="box-icon"
+                        data-page="contacts"
+                        @click=${this.onClick}>
                         <div>
                             ${myProject}
                         </div>
-                        <p>Users</p>
+                        <p>Contacts</p>
                     </div>
-                    <div @click=${this.onClick} class="box-icon" data-page="kanban">
+                    <div
+                        class="box-icon"
+                        data-page="kanban"
+                        @click=${this.onClick}>
                         <div>
                             ${myScrum}
                         </div>

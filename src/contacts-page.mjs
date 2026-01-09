@@ -14,6 +14,7 @@ import {
 } from './server-api.mjs'
 
 import './contact-form.mjs'
+import './glass-lens-picker.mjs'
 
 const snackBarEvent = new CustomEvent('snackbar-message', {
     detail: {
@@ -124,7 +125,25 @@ export class ContactsPage extends LitElement {
             margin-top: 1rem;
         }
 
+        #glass-lens-dialog {
+            min-width: 90%;
+            height: 301px;
+
+        }
+
+        #contact-id {
+            position: absolute;
+            top: 1.5rem;
+            right: 1.5rem;
+        }
+
         @media (min-width: 600px) {
+
+            #glass-lens-dialog {
+                min-width: 275px;
+                max-width: 401px;
+                max-height: 355px;
+            }
 
             .field-row {
                 grid-template-columns: 2fr 2fr 1fr auto;
@@ -228,7 +247,7 @@ export class ContactsPage extends LitElement {
         const contactId =
             e.currentTarget.dataset.index
         
-        const dialog = this.renderRoot.querySelector('dialog')
+        const dialog = this.renderRoot.querySelector('#contact-dialog')
         const contactForm = dialog.querySelector('contact-form')
         contactForm.user = { ...this.contacts[contactId] }
         dialog.showModal()
@@ -246,14 +265,39 @@ export class ContactsPage extends LitElement {
     }
 
     async addContact (id) {
-        await addContactToKanbanOnServer(id)
-        this.requestUpdate()
+
+        const dialog = this.renderRoot.querySelector('#glass-lens-dialog')
+        const glassLensPicker = dialog.querySelector('glass-lens-picker')
+        const contactIdP = dialog.querySelector('#contact-id')
+
+        contactIdP.textContent = `Id / ${id}`
+        dialog.dataset.contact = id
+        glassLensPicker.resetSelection()
+
+        dialog.showModal()
+    }
+
+    cancelForm () {
+        const dialog = this.renderRoot.querySelector('#glass-lens-dialog')
+        dialog.close()
+    }
+
+    async saveForm () {
+        const dialog = this.renderRoot.querySelector('#glass-lens-dialog')
+        const glassLensPicker = dialog.querySelector('glass-lens-picker')
+
+        const id = dialog.dataset.contact
+        const type = glassLensPicker.selectedEyeTool
+
+        await addContactToKanbanOnServer(id, type)
 
         snackBarEvent.detail.bkColor = 'rgba(121, 246, 148, 1.0)'
         snackBarEvent.detail.txtColor = 'whitesmoke'
 
-        snackBarEvent.detail.message = `Contact with id: ${id} added to Kanban`
+        snackBarEvent.detail.message = `Contact Id: ${id} Type: ${type}`
         this.dispatchEvent(snackBarEvent)
+
+        dialog.close()
     }
 
     render () {
@@ -321,8 +365,28 @@ export class ContactsPage extends LitElement {
 
             </div>
 
-            <dialog>
+            <dialog id="contact-dialog">
                 <contact-form></contact-form>
+            </dialog>
+
+            <dialog id="glass-lens-dialog">
+                <p id="contact-id"></p>
+                <glass-lens-picker></glass-lens-picker>
+
+                <div>
+                    <button
+                        value="cancel"
+                        @click=${this.cancelForm}>
+                        Cancel
+                    </button>
+                    <button
+                        class="save-btn"
+                        value="close"
+                        @click=${this.saveForm}>
+                        Save
+                    </button>
+                </div>
+                
             </dialog>
         `
     }

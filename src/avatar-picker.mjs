@@ -18,7 +18,7 @@ export class AvatarPicker extends LitElement {
 
         .avatar-grid {
             display: grid;
-            grid-template-columns: repeat(5, minmax(40px, 1fr));
+            grid-template-columns: repeat(5, minmax(55px, 1fr));
             gap: .7rem;
         }
 
@@ -27,6 +27,13 @@ export class AvatarPicker extends LitElement {
             place-items: center;
 
             cursor: pointer;
+
+            > svg {
+                width: 40px;
+                height: 40px;
+                /* border-radius: 50%;
+                background-color: #f3f4f6; */
+            }
         }
         
         .avatar[selected] {
@@ -42,6 +49,14 @@ export class AvatarPicker extends LitElement {
                 display: grid;
                 grid-template-columns: repeat(5, minmax(80px, 1fr));
                 gap: 2.1rem;
+            }
+
+            .avatar {
+
+                > svg {
+                    width: 75px;
+                    height: 75px;
+                }
             }
 
         }
@@ -63,6 +78,10 @@ export class AvatarPicker extends LitElement {
     firstUpdated () {
         this.selectedAvatar = "bip"
     }
+
+    resetSelection () {
+        this.selectedAvatar = 'bip'
+    }   
 
     render () {
         return html`

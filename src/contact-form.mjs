@@ -136,6 +136,9 @@ export class ContactForm extends LitElement {
 
         // clear the form
         form.reset()
+        
+        const avatarPicker = this.renderRoot.querySelector('avatar-picker')
+        avatarPicker.resetSelection()
     }
 
     cancelForm (e) {

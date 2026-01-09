@@ -5,6 +5,7 @@ import koaBody from 'koa-body'
 import serve from 'koa-static'
 import send from 'koa-send'
 import fs from 'fs/promises'
+import { read } from 'fs'
 
 
 const SERVER_PORT = 3000
@@ -49,7 +50,19 @@ app.use(serve(staticDir), {
 })
 
 const clientsFile = new URL('../data/clients.json', import.meta.url)
-const kanbanFile = new URL('../data/kanban.json', import.meta.url)
+
+const readRightDataFile = async (type) => {
+
+    let kanbanFile = ''
+
+    if (type === 'lenses') {
+        kanbanFile = new URL('../data/kanban-lenses.json', import.meta.url)
+    } else if (type === 'glasses') {
+        kanbanFile = new URL('../data/kanban-glasses.json', import.meta.url)
+    }
+
+    return kanbanFile
+}
 
 // ------------------------------ Routes --------------------------------------
 router.get('/api/clients', async (ctx) => {
@@ -64,9 +77,15 @@ router.get('/api/clients', async (ctx) => {
     
 })
 
-router.get('/api/kanban', async (ctx) => {
+router.get('/api/kanban/:type', async (ctx) => {
+
+    const { type } = ctx.params
+
     try {
-        const data = await fs.readFile(kanbanFile, 'utf-8')
+        const data = await fs.readFile(
+            await readRightDataFile(type), 'utf-8'
+        )
+
         ctx.body = JSON.parse(data)
         ctx.status = 200
     } catch (error) {
@@ -79,11 +98,19 @@ router.get('/api/kanban', async (ctx) => {
 router.get('/api/files-backup', async (ctx) => {
     try {
         const clientsData = await fs.readFile(clientsFile, 'utf-8')
-        const kanbanData = await fs.readFile(kanbanFile, 'utf-8')
+        const kanbanGlassesData = await fs.readFile(
+            await readRightDataFile('glasses'), 'utf-8'
+        )
+        const kanbanLensesData = await fs.readFile(
+            await readRightDataFile('lenses'), 'utf-8'
+        )
 
         ctx.body = {
             clients: JSON.parse(clientsData),
-            kanban: JSON.parse(kanbanData)
+            kanban: {
+                glasses: JSON.parse(kanbanGlassesData),
+                lenses: JSON.parse(kanbanLensesData)
+            }
         }
         ctx.status = 200
     } catch (error) {
@@ -159,18 +186,21 @@ router.delete('/api/delete-client/:id', async (ctx) => {
     }
 })
 
-router.post('/api/new-task', async (ctx) => {
+router.post('/api/new-task/:type', async (ctx) => {
     try {
         const { id } = ctx.request.body
+        const { type } = ctx.params
 
         const clientsDataFile = await fs.readFile(clientsFile, 'utf-8')
         const clientsData = JSON.parse(clientsDataFile)
 
         const clientData = clientsData.filter(client => {
             return client.id == Number(id)
-        })
+        })   
 
-        const kanbanDataFile = await fs.readFile(kanbanFile, 'utf-8')
+        const kanbanDataFile = await fs.readFile(
+            await readRightDataFile(type), 'utf-8'
+        )
         const kanbansData = JSON.parse(kanbanDataFile)
 
        const newTask = {
@@ -192,7 +222,10 @@ router.post('/api/new-task', async (ctx) => {
 
         kanbansData[0]?.tasks.push(newTask)
 
-        await fs.writeFile(kanbanFile, JSON.stringify(kanbansData, null, 2))
+        await fs.writeFile(
+            await readRightDataFile(type),
+            JSON.stringify(kanbansData, null, 2)
+        )
         ctx.status = 201
         ctx.body = newTask
 
@@ -202,11 +235,14 @@ router.post('/api/new-task', async (ctx) => {
     }
 })
 
-router.put('/api/update-task-position/:id/:position', async (ctx) => {
+router.put('/api/update-task-position/:type/:id/:position', async (ctx) => {
     try {
-        const { id, position } = ctx.params
+        const { type, id, position } = ctx.params
 
-        const kanbanDataFile = await fs.readFile(kanbanFile, 'utf-8')
+        const kanbanDataFile = await fs.readFile(
+            await readRightDataFile(type),
+            'utf-8'
+        )
         let kanbansData = JSON.parse(kanbanDataFile)
         let movedTask = null
 
@@ -239,7 +275,10 @@ router.put('/api/update-task-position/:id/:position', async (ctx) => {
             }
         })
 
-        await fs.writeFile(kanbanFile, JSON.stringify(kanbansData, null, 2))
+        await fs.writeFile(
+            await readRightDataFile(type),
+            JSON.stringify(kanbansData, null, 2)
+        )
 
         ctx.status = 200
         ctx.body = { message: 'Task updated successfully' }
@@ -249,12 +288,15 @@ router.put('/api/update-task-position/:id/:position', async (ctx) => {
     }
 })
 
-router.post('/api/update-task-details/:id', async (ctx) => {
+router.post('/api/update-task-details/:type/:id', async (ctx) => {
     try {
-        const { id } = ctx.params
+        const { type, id } = ctx.params
         const updatedDetails = ctx.request.body
 
-        const kanbanDataFile = await fs.readFile(kanbanFile, 'utf-8')
+        const kanbanDataFile = await fs.readFile(
+            await readRightDataFile(type), 
+            'utf-8'
+        )
         let kanbansData = JSON.parse(kanbanDataFile)
 
         kanbansData = kanbansData.map(kanban => {
@@ -275,7 +317,10 @@ router.post('/api/update-task-details/:id', async (ctx) => {
             }
         })
 
-        await fs.writeFile(kanbanFile, JSON.stringify(kanbansData, null, 2))
+        await fs.writeFile(
+            await readRightDataFile(type),
+            JSON.stringify(kanbansData, null, 2)
+        )
 
         ctx.status = 200
         ctx.body = { message: 'Task details updated successfully' }
@@ -285,10 +330,13 @@ router.post('/api/update-task-details/:id', async (ctx) => {
     }
 })
 
-router.delete('/api/delete-task/:id', async (ctx) => {
+router.delete('/api/delete-task/:type/:id', async (ctx) => {
     try {
-        const { id } = ctx.params
-        const kanbanDataFile = await fs.readFile(kanbanFile, 'utf-8')
+        const { type, id } = ctx.params
+        const kanbanDataFile = await fs.readFile(
+            await readRightDataFile(type),
+            'utf-8'
+        )
         let kanbansData = JSON.parse(kanbanDataFile)
 
         kanbansData = kanbansData.map(kanban => {
@@ -303,7 +351,10 @@ router.delete('/api/delete-task/:id', async (ctx) => {
             }
         })
 
-        await fs.writeFile(kanbanFile, JSON.stringify(kanbansData, null, 2))
+        await fs.writeFile(
+            await readRightDataFile(type),
+            JSON.stringify(kanbansData, null, 2)
+        )
 
         ctx.status = 200
         ctx.body = { message: 'Task deleted successfully' }

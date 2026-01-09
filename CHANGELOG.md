@@ -6,6 +6,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.19.0] - 09-01-2026
+
+### Added
+	- Glass Lens feature to contacts page
+	- Glass Lens form component
+	- Glass Lens picker component
+	- SVG assets for various Glass Lens eye tools
+
+### Changed
+	- Minor version updates 
+
 ## [0.17.0] - 08-01-2026
 
 ### Changed

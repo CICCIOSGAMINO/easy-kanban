@@ -91,18 +91,21 @@ export class UserForm extends LitElement {
             attribute: false,
             state: true,
         },
+        isGlassesOn: {
+            type: Boolean,
+            state: true
+        }
     }
 
     constructor () {
         super()
         this.user = null
         this.message = ''
+        this.isGlassesOn = true
     }
 
     msgCountPlus (e) {
         e.preventDefault()
-        // this.user.msgCount += 1
-        // this.requestUpdate()
 
         this.user = {
             ...this.user,
@@ -130,7 +133,8 @@ export class UserForm extends LitElement {
             {
                 lastContact: new Date().toLocaleDateString('en-GB'),
                 msgCount: this.user.msgCount + 1
-            }
+            },
+            this.isGlassesOn ? 'glasses' : 'lenses'
         )
 
         // whatsapp link
@@ -149,7 +153,8 @@ export class UserForm extends LitElement {
             {
                 product: this.user.product,
                 msgCount: this.user.msgCount
-            }
+            },
+            this.isGlassesOn ? 'glasses' : 'lenses'
         )
 
         this.closeDialog(e)

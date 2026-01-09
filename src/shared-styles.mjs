@@ -12,6 +12,12 @@ export const sharedStyles = css`
         display: none !important;
     }
 
+    svg {
+        display: block;
+        width: 36px;
+        height: 36px;
+    }
+
     h1 a {
         text-decoration: none;
         color: var(--main-color);
@@ -67,22 +73,22 @@ export const sharedStyles = css`
         background-color: rgba(0, 0, 0, 0.3);
     }
 
-    .add-icon, .delete-icon {
+    .add-icon, .delete-icon, .eye-icon {
         background: none;
         border: none;
         cursor: pointer;
         padding: .3rem;
     }
 
-    .add-icon:hover svg {
+    .add-icon:hover svg, .eye-icon:hover svg {
         fill: salmon;
     }
 
-    .add-icon:hover {
+    .add-icon:hover, .eye-icon:hover {
         background-color: rgba(255, 165, 0, 0.2);
     }
 
-    .delete-icon:hover {
+    .delete-icon:hover{
         background-color: rgba(255, 0, 0, 0.2);
     }
 
@@ -90,7 +96,7 @@ export const sharedStyles = css`
         fill: red;
     }
 
-    .add-icon svg, .delete-icon svg {
+    .add-icon svg, .delete-icon svg, .eye-icon svg {
         width: 27px;
         height: 27px;
         fill: var(--main-color);
