@@ -151,7 +151,7 @@ export const sharedStyles = css`
             padding: 3rem;
             min-width: 401px;
             max-width: 751px;
-            max-height: 455px;
+            max-height: 485px;
 
         }
     }

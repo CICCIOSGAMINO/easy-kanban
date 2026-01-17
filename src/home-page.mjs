@@ -216,7 +216,7 @@ export class HomePage extends LitElement {
                     </div>
                     
                     <!-- version -->
-                    <p>v0.19.0 - Jen 2026</p>
+                    <p>v0.21.0 - Jen 2026</p>
                 </div>
                 <div id="b-side">
                     <div
@@ -226,7 +226,7 @@ export class HomePage extends LitElement {
                         <div>
                             ${myProject}
                         </div>
-                        <p>Contacts</p>
+                        <p>Contatti</p>
                     </div>
                     <div
                         class="box-icon"
@@ -235,7 +235,7 @@ export class HomePage extends LitElement {
                         <div>
                             ${myScrum}
                         </div>
-                        <p>Tasks</p>
+                        <p>Attività</p>
                     </div>
                     
                 </div>

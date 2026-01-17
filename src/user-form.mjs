@@ -216,7 +216,7 @@ export class UserForm extends LitElement {
                         </div>
                         <div class="field">
                             <p class="label">Message</p>
-                            <textarea class="value" rows="4" cols="35" .value=${this.message}></textarea>
+                            <textarea class="value" rows="6" cols="37" .value=${this.message}></textarea>
                         </div>
                         <div class="field">
                             <button class="w-btn" @click=${this.sendMessage}>Send Message</button>

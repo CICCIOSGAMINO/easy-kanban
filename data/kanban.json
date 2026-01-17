@@ -1,0 +1,165 @@
+{
+  "glasses": [
+    {
+      "taskId": 0,
+      "taskName": "Inizio",
+      "tasks": [
+        {
+          "id": 2,
+          "name": "Gianmario Rudelli",
+          "email": "rudelli@gmail.com",
+          "phone": "3286665229",
+          "msgCount": 0,
+          "since": "2026-01-10T08:19:55.976Z",
+          "lastContact": "2026-01-10T08:19:55.976Z"
+        },
+        {
+          "id": 3,
+          "name": "scaburri cristiano",
+          "email": "rottigniottica@gmail.com",
+          "phone": "3713700010",
+          "msgCount": 0,
+          "since": "2026-01-12T09:20:00.570Z",
+          "lastContact": "2026-01-12T09:20:00.570Z"
+        },
+        {
+          "id": 5,
+          "name": "Zambaiti Matilde (mamma)",
+          "email": "z@gmail.com",
+          "phone": "3403474896",
+          "msgCount": 0,
+          "since": "2026-01-16T15:43:50.595Z",
+          "lastContact": "2026-01-16T15:43:50.595Z"
+        },
+        {
+          "id": 6,
+          "name": "Ongaro Aldo",
+          "email": "d@gmai.com",
+          "phone": "3381865470",
+          "msgCount": 0,
+          "since": "2026-01-16T15:56:13.140Z",
+          "lastContact": "2026-01-16T15:56:13.140Z"
+        },
+        {
+          "id": 8,
+          "name": "Soufiane Hamzoui",
+          "email": "s@gmail.com",
+          "phone": "3207015515",
+          "msgCount": 0,
+          "since": "2026-01-16T16:03:42.851Z",
+          "lastContact": "2026-01-16T16:03:42.851Z"
+        },
+        {
+          "id": 9,
+          "name": "Barbara Zambaiti",
+          "email": "D@gmailc.om",
+          "phone": "3287383002",
+          "msgCount": 0,
+          "since": "2026-01-16T16:04:58.362Z",
+          "lastContact": "2026-01-16T16:04:58.362Z"
+        }
+      ],
+      "timing": 7,
+      "timingTxt": "7 Giorni",
+      "message": "Buongiorno come vanno i tuoi nuovi occhiali? Buona giornata"
+    },
+    {
+      "taskId": 1,
+      "taskName": "45Giorni",
+      "tasks": [
+        {
+          "id": 1,
+          "name": "Andrea Rottigni",
+          "email": "andrearottigni@gmail.com",
+          "phone": "3291244703",
+          "msgCount": 1,
+          "since": "2026-01-10T08:07:20.924Z",
+          "lastContact": "2026-01-12T09:25:03.486Z"
+        }
+      ],
+      "timing": 45,
+      "timingTxt": "45 Giorni",
+      "message": "Buongiorno ti ricordiamo la promozione relativa al tuo occhiale che ti permette un secondo occhiale al 50%, inoltre se ci porti un amico o un parente riceverai un piccolo omaggio! Buona giornata!"
+    },
+    {
+      "taskId": 2,
+      "taskName": "1Anno",
+      "tasks": [],
+      "timing": 365,
+      "timingTxt": "1 Anno",
+      "message": "Buongiorno è passato un anno dall acquisto del tuo occhiale! Ti invitiamo a prenotare un test visivo completamente gratuito per verificare inoltre ti offriamo un ceck up del tuo occhiale (pulizia ultrasuoni sostituzione naselli, controllo viti, regolazione assetto montatura). Ti aspettiamo in negozio, Buona giornata!"
+    },
+    {
+      "taskId": 3,
+      "taskName": "23Mesi",
+      "tasks": [],
+      "timing": 690,
+      "timingTxt": "23 Mesi",
+      "message": "Ciao tra un mesetto scade la garanzia dei tuoi occhiali. Se pensi che abbiano bisogno di un controllo o di una piccola regolazione o se volessi rinnovare il tuo look con un nuovo occhiale, abbiamo preparato per te delle condizioni speciali, fissa pure qui il tuo appuntamento per un controllo visivo😉"
+    },
+    {
+      "taskId": 4,
+      "taskName": "35Mesi",
+      "tasks": [],
+      "timing": 1050,
+      "timingTxt": "35 Mesi",
+      "message": "Sono passati oltre 3 anni dai tuoi occhiali… Oggi puoi avere lenti più nitide, leggere e confortevoli rispetto a quelle che indossi, ti abbiamo riservato condizioni speciali fedeltà se prenoti un appuntamento entro un mese! Grazie ancora, Ottica Rottigni"
+    }
+  ],
+  "lenses": [
+    {
+      "taskId": 0,
+      "taskName": "Inizio",
+      "tasks": [],
+      "timing": 7,
+      "timingTxt": "7 Giorni",
+      "message": "Message task 0, Inizio"
+    },
+    {
+      "taskId": 1,
+      "taskName": "90Giorni",
+      "tasks": [
+        {
+          "id": 7,
+          "name": "Pulcini Giada",
+          "email": "g@gmail.com",
+          "phone": "3519934893",
+          "msgCount": 0,
+          "since": "2026-01-16T16:01:41.379Z",
+          "lastContact": "2026-01-16T16:01:41.379Z"
+        },
+        {
+          "id": 4,
+          "name": "Bertocchi Daniela",
+          "email": "rottigniottica@gmail.com",
+          "phone": "3202106017",
+          "msgCount": 0,
+          "since": "2026-01-12T09:26:12.347Z",
+          "lastContact": "2026-01-12T09:26:12.347Z"
+        }
+      ],
+      "timing": 90,
+      "timingTxt": "90 Giorni",
+      "message": "Message task 1, 90Giorni"
+    },
+    {
+      "taskId": 2,
+      "taskName": "6Mesi",
+      "tasks": [
+        {
+          "id": 1,
+          "name": "Andrea Rottigni",
+          "email": "andrearottigni@gmail.com",
+          "phone": "3291244703",
+          "msgCount": 0,
+          "since": "2026-01-09T20:43:28.930Z",
+          "lastContact": "2026-01-09T20:43:28.930Z",
+          "product": "Lenti Progressive"
+        }
+      ],
+      "timing": 180,
+      "timingTxt": "6 Mesi",
+      "message": "Message task 2, 6Mesi"
+    }
+  ]
+}

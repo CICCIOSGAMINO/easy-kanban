@@ -6,6 +6,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.21.0] - 17-01-2026
+
+### Changed
+	- email field in client not required anymore
+	- new API based on ONLY one kanban file for all kanbans (lenses, glasses)
+	- ITA for main texts
+
 ## [0.19.1] - 09-01-2026
 
 ### Added

@@ -5,7 +5,6 @@ import koaBody from 'koa-body'
 import serve from 'koa-static'
 import send from 'koa-send'
 import fs from 'fs/promises'
-import { read } from 'fs'
 
 
 const SERVER_PORT = 3000
@@ -50,19 +49,7 @@ app.use(serve(staticDir), {
 })
 
 const clientsFile = new URL('../data/clients.json', import.meta.url)
-
-const readRightDataFile = async (type) => {
-
-    let kanbanFile = ''
-
-    if (type === 'lenses') {
-        kanbanFile = new URL('../data/kanban-lenses.json', import.meta.url)
-    } else if (type === 'glasses') {
-        kanbanFile = new URL('../data/kanban-glasses.json', import.meta.url)
-    }
-
-    return kanbanFile
-}
+const kanbanFile = new URL('../data/kanban.json', import.meta.url)
 
 // ------------------------------ Routes --------------------------------------
 router.get('/api/clients', async (ctx) => {
@@ -82,11 +69,24 @@ router.get('/api/kanban/:type', async (ctx) => {
     const { type } = ctx.params
 
     try {
-        const data = await fs.readFile(
-            await readRightDataFile(type), 'utf-8'
-        )
 
-        ctx.body = JSON.parse(data)
+        const data = await fs.readFile(
+            kanbanFile,
+            'utf-8')
+        
+        // glassed or lenses from kanban.json
+        const { lenses, glasses } = JSON.parse(data)
+
+        if (type === 'lenses') {
+            ctx.body = lenses
+        } else if (type === 'glasses') {
+            ctx.body = glasses
+        } else {
+            ctx.status = 400
+            ctx.body = { error: 'Invalid kanban type' }
+            return
+        }
+
         ctx.status = 200
     } catch (error) {
         ctx.status = 500
@@ -98,19 +98,11 @@ router.get('/api/kanban/:type', async (ctx) => {
 router.get('/api/files-backup', async (ctx) => {
     try {
         const clientsData = await fs.readFile(clientsFile, 'utf-8')
-        const kanbanGlassesData = await fs.readFile(
-            await readRightDataFile('glasses'), 'utf-8'
-        )
-        const kanbanLensesData = await fs.readFile(
-            await readRightDataFile('lenses'), 'utf-8'
-        )
+        const kanbanData = await fs.readFile(kanbanFile, 'utf-8')
 
         ctx.body = {
             clients: JSON.parse(clientsData),
-            kanban: {
-                glasses: JSON.parse(kanbanGlassesData),
-                lenses: JSON.parse(kanbanLensesData)
-            }
+            kanban: JSON.parse(kanbanData)
         }
         ctx.status = 200
     } catch (error) {
@@ -131,7 +123,11 @@ router.post('/api/new-client', async (ctx) => {
         newClient.id = lastId + 1
 
         clients.push(newClient)
-        await fs.writeFile(clientsFile, JSON.stringify(clients, null, 2))
+
+        await fs.writeFile(
+            clientsFile,
+            JSON.stringify(clients, null, 2))
+
         ctx.status = 201
         ctx.body = newClient
     } catch (error) {
@@ -145,7 +141,10 @@ router.put('/api/modify-client/:id', async (ctx) => {
         const { id } = ctx.params
         const updatedClient = ctx.request.body
 
-        const data = await fs.readFile(clientsFile, 'utf-8')
+        const data = await fs.readFile(
+            clientsFile,
+            'utf-8')
+        
         let clients = JSON.parse(data)
 
         clients = clients.map(client => {
@@ -158,7 +157,10 @@ router.put('/api/modify-client/:id', async (ctx) => {
             return client
         })
 
-        await fs.writeFile(clientsFile, JSON.stringify(clients, null, 2))
+        await fs.writeFile(
+            clientsFile,
+            JSON.stringify(clients, null, 2))
+
         ctx.status = 200
         ctx.body = updatedClient
     } catch (error) {
@@ -170,13 +172,20 @@ router.put('/api/modify-client/:id', async (ctx) => {
 router.delete('/api/delete-client/:id', async (ctx) => {
     try {
         const { id } = ctx.params
-        const data = await fs.readFile(clientsFile, 'utf-8')
+        
+        const data = await fs.readFile(
+            clientsFile,
+            'utf-8')
+
         let clients = JSON.parse(data)
 
         clients = clients.filter(client => {
             return client.id !== Number(id)
         })
-        await fs.writeFile(clientsFile, JSON.stringify(clients, null, 2))
+
+        await fs.writeFile(
+            clientsFile,
+            JSON.stringify(clients, null, 2))
 
         ctx.status = 200
         ctx.body = { message: 'Client deleted successfully' }
@@ -191,7 +200,10 @@ router.post('/api/new-task/:type', async (ctx) => {
         const { id } = ctx.request.body
         const { type } = ctx.params
 
-        const clientsDataFile = await fs.readFile(clientsFile, 'utf-8')
+        const clientsDataFile = await fs.readFile(
+            clientsFile,
+            'utf-8')
+
         const clientsData = JSON.parse(clientsDataFile)
 
         const clientData = clientsData.filter(client => {
@@ -199,9 +211,9 @@ router.post('/api/new-task/:type', async (ctx) => {
         })   
 
         const kanbanDataFile = await fs.readFile(
-            await readRightDataFile(type), 'utf-8'
+            kanbanFile, 'utf-8'
         )
-        const kanbansData = JSON.parse(kanbanDataFile)
+        const kanbanData = JSON.parse(kanbanDataFile)
 
        const newTask = {
             id: clientData[0].id,
@@ -214,17 +226,46 @@ router.post('/api/new-task/:type', async (ctx) => {
             lastContact: new Date()
         }
 
-        if (kanbansData[0]?.tasks.map(t => t.id).includes(newTask.id)) {
+        var kanbanDataLenses = kanbanData.lenses
+        var kanbanDataGlasses = kanbanData.glasses
+
+        if (type === 'lenses') {
+            
+            if (kanbanDataLenses[0]?.tasks.map(t => t.id).includes(newTask.id)) {
+                ctx.status = 400
+                ctx.body = {
+                    error: 'Task with this client ID already exists in the kanban'
+                }
+                return
+            }
+
+            kanbanDataLenses[0]?.tasks.push(newTask)
+
+        } else if (type === 'glasses') {
+            
+            if (kanbanDataGlasses[0]?.tasks.map(t => t.id).includes(newTask.id)) {
+                ctx.status = 400
+                ctx.body = {
+                    error: 'Task with this client ID already exists in the kanban'
+                }
+                return
+            }
+
+            kanbanDataGlasses[0]?.tasks.push(newTask)
+
+        } else {
             ctx.status = 400
-            ctx.body = { error: 'Task with this client ID already exists in the kanban' }
+            ctx.body = { error: 'Invalid kanban type' }
             return
         }
 
-        kanbansData[0]?.tasks.push(newTask)
+        // update the object kanbanData
+        kanbanData.lenses = kanbanDataLenses
+        kanbanData.glasses = kanbanDataGlasses
 
         await fs.writeFile(
-            await readRightDataFile(type),
-            JSON.stringify(kanbansData, null, 2)
+            kanbanFile,
+            JSON.stringify(kanbanData, null, 2)
         )
         ctx.status = 201
         ctx.body = newTask
@@ -240,13 +281,28 @@ router.put('/api/update-task-position/:type/:id/:position', async (ctx) => {
         const { type, id, position } = ctx.params
 
         const kanbanDataFile = await fs.readFile(
-            await readRightDataFile(type),
+            kanbanFile,
             'utf-8'
         )
         let kanbansData = JSON.parse(kanbanDataFile)
+        let kanbanDataLenses = kanbansData.lenses
+        let kanbanDataGlasses = kanbansData.glasses
+
+        let tempKanbansData = null
+
+        if (type === 'lenses') {
+            tempKanbansData = kanbanDataLenses
+        } else if (type === 'glasses') {
+            tempKanbansData = kanbanDataGlasses
+        } else {
+            ctx.status = 400
+            ctx.body = { error: 'Invalid kanban type' }
+            return
+        }
+
         let movedTask = null
 
-        kanbansData = kanbansData.map(kanban => {
+        tempKanbansData = tempKanbansData.map(kanban => {
             return {
                 ...kanban,
                 tasks: kanban.tasks.map(task => {
@@ -263,7 +319,7 @@ router.put('/api/update-task-position/:type/:id/:position', async (ctx) => {
         })
 
         // add the task to NEW position
-        kanbansData = kanbansData.map(kanban => {
+        tempKanbansData = tempKanbansData.map(kanban => {
 
             if (kanban.taskId === Number(position)) {
                 kanban.tasks.push(movedTask)
@@ -275,9 +331,19 @@ router.put('/api/update-task-position/:type/:id/:position', async (ctx) => {
             }
         })
 
+        if (type === 'lenses') {
+            kanbanDataLenses = tempKanbansData
+        } else if (type === 'glasses') {
+            kanbanDataGlasses = tempKanbansData
+        }
+
+        // update the object kanbanData
+        kanbanData.lenses = kanbanDataLenses
+        kanbanData.glasses = kanbanDataGlasses
+
         await fs.writeFile(
-            await readRightDataFile(type),
-            JSON.stringify(kanbansData, null, 2)
+            kanbanFile,
+            JSON.stringify(kanbanData, null, 2)
         )
 
         ctx.status = 200
@@ -294,10 +360,23 @@ router.post('/api/update-task-details/:type/:id', async (ctx) => {
         const updatedDetails = ctx.request.body
 
         const kanbanDataFile = await fs.readFile(
-            await readRightDataFile(type), 
+            kanbanFile,
             'utf-8'
         )
         let kanbansData = JSON.parse(kanbanDataFile)
+
+        let kanbanDataLenses = kanbansData.lenses
+        let kanbanDataGlasses = kanbansData.glasses
+
+        if (type === 'lenses') {
+            kanbansData = kanbanDataLenses
+        } else if (type === 'glasses') {
+            kanbansData = kanbanDataGlasses
+        } else {
+            ctx.status = 400
+            ctx.body = { error: 'Invalid kanban type' }
+            return
+        }
 
         kanbansData = kanbansData.map(kanban => {
             return {
@@ -317,9 +396,19 @@ router.post('/api/update-task-details/:type/:id', async (ctx) => {
             }
         })
 
+        if (type === 'lenses') {
+            kanbanDataLenses = kanbansData
+        } else if (type === 'glasses') {
+            kanbanDataGlasses = kanbansData
+        }
+
+        // update the object kanbanData
+        kanbanData.lenses = kanbanDataLenses
+        kanbanData.glasses = kanbanDataGlasses
+
         await fs.writeFile(
-            await readRightDataFile(type),
-            JSON.stringify(kanbansData, null, 2)
+            kanbanFile,
+            JSON.stringify(kanbanData, null, 2)
         )
 
         ctx.status = 200
@@ -334,10 +423,20 @@ router.delete('/api/delete-task/:type/:id', async (ctx) => {
     try {
         const { type, id } = ctx.params
         const kanbanDataFile = await fs.readFile(
-            await readRightDataFile(type),
+            kanbanFile,
             'utf-8'
         )
         let kanbansData = JSON.parse(kanbanDataFile)
+
+        if (type === 'lenses') {
+            kanbansData = kanbansData.lenses
+        } else if (type === 'glasses') {
+            kanbansData = kanbansData.glasses
+        } else {
+            ctx.status = 400
+            ctx.body = { error: 'Invalid kanban type' }
+            return
+        }
 
         kanbansData = kanbansData.map(kanban => {
 
@@ -351,16 +450,27 @@ router.delete('/api/delete-task/:type/:id', async (ctx) => {
             }
         })
 
+
+        if (type === 'lenses') {
+            kanbanDataLenses = kanbansData
+        } else if (type === 'glasses') {
+            kanbanDataGlasses = kanbansData
+        }
+
+        // update the object kanbanData
+        kanbanData.lenses = kanbanDataLenses
+        kanbanData.glasses = kanbanDataGlasses
+
         await fs.writeFile(
-            await readRightDataFile(type),
-            JSON.stringify(kanbansData, null, 2)
+            kanbanFile,
+            JSON.stringify(kanbanData, null, 2)
         )
 
         ctx.status = 200
         ctx.body = { message: 'Task deleted successfully' }
     } catch (error) {
         ctx.status = 500
-        ctx.body = { error: 'Failed to delete task' }
+        ctx.body = { error: 'Failed to delete task' }   
     }
 })
 

@@ -181,7 +181,7 @@ export class ContactForm extends LitElement {
                                 .value=${this.user?.other}
                                 @focusin=${this.onFocusIn}
                                 @focusout=${this.onFocusOut}/>
-                            <label for="other">Other</label>
+                            <label for="other">Altro</label>
                         </div>
                      </div>
                      <div>
@@ -193,7 +193,6 @@ export class ContactForm extends LitElement {
                                 size="29"
                                 autocomplete="email"
                                 placeholder=" "
-                                required
                                 .value=${this.user?.email}
                                 @focusin=${this.onFocusIn}
                                 @focusout=${this.onFocusOut}/>
@@ -211,7 +210,7 @@ export class ContactForm extends LitElement {
                                 .value=${this.user?.phone}
                                 @focusin=${this.onFocusIn}
                                 @focusout=${this.onFocusOut}/>
-                            <label for="phone">Phone</label>
+                            <label for="phone">Telefono</label>
                         </div>
                     </div>
                 </div>
@@ -220,13 +219,13 @@ export class ContactForm extends LitElement {
                     <button
                         value="cancel"
                         @click=${this.cancelForm}>
-                        Cancel
+                        Annulla
                     </button>
                     <button
                         class="save-btn"
                         value="close"
                         @click=${this.saveForm}>
-                        Save
+                        Salva
                     </button>
 
                 </div>

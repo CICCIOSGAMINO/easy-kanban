@@ -32,6 +32,8 @@ export class KanbanPage extends LitElement {
             border: 1px solid #ccc;
             border-radius: 0.5rem;
             flex: 1;
+
+            position: relative;
         }
 
         .task-column h2 {
@@ -144,6 +146,15 @@ export class KanbanPage extends LitElement {
             display: grid;
             grid-template-columns: auto auto;
             place-items: center;
+        }
+
+        .timing-txt {
+            font-size: 0.9rem;
+            color: gray;
+
+            position: absolute;
+            top: -2.3rem;
+            transform: translateX(-25%);
         }
 
         #glasses-title {
@@ -355,7 +366,7 @@ export class KanbanPage extends LitElement {
             </h1>
 
             <div class="eye-container">
-                <h1 id="glasses-title">${this.isGlassesOn ? 'Glasses' : 'Lenses'} / </h1>
+                <h1 id="glasses-title">${this.isGlassesOn ? 'Occhiali' : 'Lenti'} / </h1>
                 <button
                     id="eyeBtn"
                     class="eye-icon"
@@ -382,7 +393,11 @@ export class KanbanPage extends LitElement {
                             data-task=${task.taskId}
                             @dragover=${this.onDragOver}
                             @drop=${this.onDrop}>
+
+                            <p class="timing-txt">${task.timingTxt}</p>
+
                             <h2>${task.taskName}</h2>
+
                             <ul class="tasks">
                                 ${repeat(
                                     task.tasks,
