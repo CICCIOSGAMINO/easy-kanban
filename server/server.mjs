@@ -284,16 +284,16 @@ router.put('/api/update-task-position/:type/:id/:position', async (ctx) => {
             kanbanFile,
             'utf-8'
         )
-        let kanbansData = JSON.parse(kanbanDataFile)
-        let kanbanDataLenses = kanbansData.lenses
-        let kanbanDataGlasses = kanbansData.glasses
+        let kanbanData = JSON.parse(kanbanDataFile)
+        let kanbanDataLenses = kanbanData.lenses
+        let kanbanDataGlasses = kanbanData.glasses
 
-        let tempKanbansData = null
+        let tempKanbanData = null
 
         if (type === 'lenses') {
-            tempKanbansData = kanbanDataLenses
+            tempKanbanData = kanbanDataLenses
         } else if (type === 'glasses') {
-            tempKanbansData = kanbanDataGlasses
+            tempKanbanData = kanbanDataGlasses
         } else {
             ctx.status = 400
             ctx.body = { error: 'Invalid kanban type' }
@@ -302,7 +302,12 @@ router.put('/api/update-task-position/:type/:id/:position', async (ctx) => {
 
         let movedTask = null
 
-        tempKanbansData = tempKanbansData.map(kanban => {
+        tempKanbanData = tempKanbanData.map(kanban => {
+
+
+            // @DEBUG
+            // console.log(`@KANBAN before move: ${kanban}`, kanban)
+
             return {
                 ...kanban,
                 tasks: kanban.tasks.map(task => {
@@ -319,11 +324,14 @@ router.put('/api/update-task-position/:type/:id/:position', async (ctx) => {
         })
 
         // add the task to NEW position
-        tempKanbansData = tempKanbansData.map(kanban => {
+        tempKanbanData = tempKanbanData.map(kanban => {
 
             if (kanban.taskId === Number(position)) {
                 kanban.tasks.push(movedTask)
             }
+
+            // @DEBUG
+            // console.log(`@KANBAN after move: ${kanban}`, kanban)
 
             return {
                 ...kanban,
@@ -332,9 +340,9 @@ router.put('/api/update-task-position/:type/:id/:position', async (ctx) => {
         })
 
         if (type === 'lenses') {
-            kanbanDataLenses = tempKanbansData
+            kanbanDataLenses = tempKanbanData
         } else if (type === 'glasses') {
-            kanbanDataGlasses = tempKanbansData
+            kanbanDataGlasses = tempKanbanData
         }
 
         // update the object kanbanData
@@ -349,6 +357,7 @@ router.put('/api/update-task-position/:type/:id/:position', async (ctx) => {
         ctx.status = 200
         ctx.body = { message: 'Task updated successfully' }
     } catch (error) {
+        console.log('@>>>> ', error)
         ctx.status = 500
         ctx.body = { error: 'Failed to update task' }
     }
@@ -363,22 +372,22 @@ router.post('/api/update-task-details/:type/:id', async (ctx) => {
             kanbanFile,
             'utf-8'
         )
-        let kanbansData = JSON.parse(kanbanDataFile)
+        let kanbanData = JSON.parse(kanbanDataFile)
 
-        let kanbanDataLenses = kanbansData.lenses
-        let kanbanDataGlasses = kanbansData.glasses
+        let kanbanDataLenses = kanbanData.lenses
+        let kanbanDataGlasses = kanbanData.glasses
 
         if (type === 'lenses') {
-            kanbansData = kanbanDataLenses
+            kanbanData = kanbanDataLenses
         } else if (type === 'glasses') {
-            kanbansData = kanbanDataGlasses
+            kanbanData = kanbanDataGlasses
         } else {
             ctx.status = 400
             ctx.body = { error: 'Invalid kanban type' }
             return
         }
 
-        kanbansData = kanbansData.map(kanban => {
+        kanbanData = kanbanData.map(kanban => {
             return {
                 ...kanban,
                 tasks: kanban.tasks.map(task => {
@@ -397,9 +406,9 @@ router.post('/api/update-task-details/:type/:id', async (ctx) => {
         })
 
         if (type === 'lenses') {
-            kanbanDataLenses = kanbansData
+            kanbanDataLenses = kanbanData
         } else if (type === 'glasses') {
-            kanbanDataGlasses = kanbansData
+            kanbanDataGlasses = kanbanData
         }
 
         // update the object kanbanData
@@ -426,19 +435,19 @@ router.delete('/api/delete-task/:type/:id', async (ctx) => {
             kanbanFile,
             'utf-8'
         )
-        let kanbansData = JSON.parse(kanbanDataFile)
+        let kanbanData = JSON.parse(kanbanDataFile)
 
         if (type === 'lenses') {
-            kanbansData = kanbansData.lenses
+            kanbanData = kanbanData.lenses
         } else if (type === 'glasses') {
-            kanbansData = kanbansData.glasses
+            kanbanData = kanbanData.glasses
         } else {
             ctx.status = 400
             ctx.body = { error: 'Invalid kanban type' }
             return
         }
 
-        kanbansData = kanbansData.map(kanban => {
+        kanbanData = kanbanData.map(kanban => {
 
             // @DEBUG
             // const t = kanban.tasks.filter(task => task.id !== Number(id))
@@ -452,9 +461,9 @@ router.delete('/api/delete-task/:type/:id', async (ctx) => {
 
 
         if (type === 'lenses') {
-            kanbanDataLenses = kanbansData
+            kanbanDataLenses = kanbanData
         } else if (type === 'glasses') {
-            kanbanDataGlasses = kanbansData
+            kanbanDataGlasses = kanbanData
         }
 
         // update the object kanbanData

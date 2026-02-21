@@ -1,48 +1,114 @@
 [
   {
     "id": 1,
-    "avatar": "berta",
-    "name": "Zoran Mandani",
-    "email": "zoran@gmail.com",
-    "phone": "13-9899777",
-    "other": ""
+    "avatar": "bip",
+    "name": "Andrea Rottigni",
+    "other": "Occhiali da vista",
+    "email": "andrearottigni@gmail.com",
+    "phone": "3291244703"
+  },
+  {
+    "id": 2,
+    "avatar": "bip",
+    "name": "Gianmario Rudelli",
+    "other": "Occhiali",
+    "email": "rudelli@gmail.com",
+    "phone": "3286665229"
   },
   {
     "id": 3,
-    "avatar": "jack",
-    "name": "Mattia Lanfranchi",
-    "email": "matt.lanf@hotmail.it",
-    "phone": "+39 3245665"
+    "avatar": "bip",
+    "name": "scaburri cristiano",
+    "other": "occhiali ",
+    "email": "rottigniottica@gmail.com",
+    "phone": "3713700010"
+  },
+  {
+    "id": 4,
+    "avatar": "bip",
+    "name": "Bertocchi Daniela",
+    "other": "lenti a contatto trimestrali",
+    "email": "rottigniottica@gmail.com",
+    "phone": "3202106017"
   },
   {
     "id": 5,
     "avatar": "bip",
-    "name": "Marco Canali",
-    "email": "marco.canali@gmail.com",
-    "phone": "+393207632270"
+    "name": "Zambaiti Matilde (mamma)",
+    "other": "Occhiali vista",
+    "email": "z@gmail.com",
+    "phone": "3403474896"
   },
   {
     "id": 6,
-    "avatar": "chen",
-    "name": "Davide Rottigni",
-    "email": "dave@koren.it",
-    "phone": "3389218530",
-    "other": ""
+    "avatar": "bip",
+    "name": "Ongaro Aldo",
+    "other": "occhiali da vista",
+    "email": "d@gmai.com",
+    "phone": "3381865470"
   },
   {
     "id": 7,
     "avatar": "berta",
-    "name": "Teofilo",
-    "other": "",
-    "email": "teo@gmail.com",
-    "phone": "344556677"
+    "name": "Pulcini Giada",
+    "other": "lac",
+    "email": "g@gmail.com",
+    "phone": "3519934893"
   },
   {
     "id": 8,
-    "avatar": "chen",
-    "name": "Kurt Gödel",
-    "other": "nothing",
-    "email": "kurt_g@gmail.com",
-    "phone": "234445666"
+    "avatar": "bip",
+    "name": "Soufiane Hamzoui",
+    "other": "occhiali vista",
+    "email": "s@gmail.com",
+    "phone": "3207015515"
+  },
+  {
+    "id": 9,
+    "avatar": "bip",
+    "name": "Barbara Zambaiti",
+    "other": "occhiali vista",
+    "email": "D@gmailc.om",
+    "phone": " 328 738 3002"
+  },
+  {
+    "id": 11,
+    "avatar": "bip",
+    "name": "Pacati Giovanni",
+    "other": "Occhiali",
+    "email": "d@gmail.com",
+    "phone": "348 905 9402"
+  },
+  {
+    "id": 12,
+    "avatar": "bip",
+    "name": "Davi Grazia",
+    "other": "Occhiali",
+    "email": "g@gmail.com",
+    "phone": "3715367996"
+  },
+  {
+    "id": 13,
+    "avatar": "berta",
+    "name": "Lanfranchi Antonia",
+    "other": "occhiali",
+    "email": "d@gmail.com",
+    "phone": "348-7750594"
+  },
+  {
+    "id": 14,
+    "avatar": "bip",
+    "name": "Piantoni Gianmauro ",
+    "other": "occhiali",
+    "email": "d@gmail.com",
+    "phone": "339 227 8943"
+  },
+  {
+    "id": 15,
+    "avatar": "shelly",
+    "name": "Aquilini Katia",
+    "other": "occhiali lei + figlio",
+    "email": "d@gmail.com",
+    "phone": "3394615126"
   }
 ]

@@ -1,0 +1,48 @@
+[
+  {
+    "id": 1,
+    "avatar": "berta",
+    "name": "Zoran Mandani",
+    "email": "zoran@gmail.com",
+    "phone": "13-9899777",
+    "other": ""
+  },
+  {
+    "id": 3,
+    "avatar": "jack",
+    "name": "Mattia Lanfranchi",
+    "email": "matt.lanf@hotmail.it",
+    "phone": "+39 3245665"
+  },
+  {
+    "id": 5,
+    "avatar": "bip",
+    "name": "Marco Canali",
+    "email": "marco.canali@gmail.com",
+    "phone": "+393207632270"
+  },
+  {
+    "id": 6,
+    "avatar": "chen",
+    "name": "Davide Rottigni",
+    "email": "dave@koren.it",
+    "phone": "3389218530",
+    "other": ""
+  },
+  {
+    "id": 7,
+    "avatar": "berta",
+    "name": "Teofilo",
+    "other": "",
+    "email": "teo@gmail.com",
+    "phone": "344556677"
+  },
+  {
+    "id": 8,
+    "avatar": "chen",
+    "name": "Kurt Gödel",
+    "other": "nothing",
+    "email": "kurt_g@gmail.com",
+    "phone": "234445666"
+  }
+]

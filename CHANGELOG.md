@@ -6,6 +6,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.30.0] - 21-02-2026
+
+### Changed
+	- Fix the 500 error on update-task-position endpoint
+
 ## [0.21.0] - 17-01-2026
 
 ### Changed
