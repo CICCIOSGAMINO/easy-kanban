@@ -259,13 +259,12 @@ router.post('/api/new-task/:type', async (ctx) => {
             return
         }
 
-        // update the object kanbanData
-        kanbanData.lenses = kanbanDataLenses
-        kanbanData.glasses = kanbanDataGlasses
-
         await fs.writeFile(
             kanbanFile,
-            JSON.stringify(kanbanData, null, 2)
+            JSON.stringify({
+                glasses: kanbanDataGlasses,
+                lenses: kanbanDataLenses
+            }, null, 2)
         )
         ctx.status = 201
         ctx.body = newTask
@@ -411,13 +410,12 @@ router.post('/api/update-task-details/:type/:id', async (ctx) => {
             kanbanDataGlasses = kanbanData
         }
 
-        // update the object kanbanData
-        kanbanData.lenses = kanbanDataLenses
-        kanbanData.glasses = kanbanDataGlasses
-
         await fs.writeFile(
             kanbanFile,
-            JSON.stringify(kanbanData, null, 2)
+            JSON.stringify({
+                glasses: kanbanDataGlasses,
+                lenses: kanbanDataLenses
+            }, null, 2)
         )
 
         ctx.status = 200
@@ -466,13 +464,12 @@ router.delete('/api/delete-task/:type/:id', async (ctx) => {
             kanbanDataGlasses = kanbanData
         }
 
-        // update the object kanbanData
-        kanbanData.lenses = kanbanDataLenses
-        kanbanData.glasses = kanbanDataGlasses
-
         await fs.writeFile(
             kanbanFile,
-            JSON.stringify(kanbanData, null, 2)
+            JSON.stringify({
+                glasses: kanbanDataGlasses,
+                lenses: kanbanDataLenses
+            }, null, 2)
         )
 
         ctx.status = 200

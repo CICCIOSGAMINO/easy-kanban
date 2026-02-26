@@ -6,6 +6,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.31.0] - 26-02-2026
+
+### Changed
+	- Fix the write kanban.json file when save button clicked
+
 ## [0.30.0] - 21-02-2026
 
 ### Changed
